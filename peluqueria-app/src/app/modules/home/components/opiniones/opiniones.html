@@ -1,1 +1,16 @@
-<p>opiniones works!</p>
+<section class="resenas-section" id="opiniones">
+  <div class="container-app">
+    <div class="section-header centered">
+      <span class="eyebrow">Lo que dicen</span>
+      <div class="gold-line center"></div>
+      <h2>Opiniones de <em style="font-style:italic; color:var(--gold)">clientes</em></h2>
+    </div>
+    <div class="resenas-grid">
+      <div class="resena-card" *ngFor="let r of resenas">
+        <div class="resena-estrellas">★★★★★</div>
+        <p class="resena-texto">"{{ r.texto }}"</p>
+        <span class="resena-autor">— {{ r.autor }}</span>
+      </div>
+    </div>
+  </div>
+</section>

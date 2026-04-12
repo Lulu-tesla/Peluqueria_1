@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-boton-flotante',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './boton-flotante.html',
-  styleUrl: './boton-flotante.css',
+  styleUrl: './boton-flotante.css'
 })
 export class BotonFlotante {}

@@ -1,1 +1,17 @@
-<p>servicios-destacados works!</p>
+<section class="servicios-section" id="servicios">
+  <div class="container-app">
+    <div class="section-header centered">
+      <span class="eyebrow">Lo que ofrecemos</span>
+      <div class="gold-line center"></div>
+      <h2>Nuestros <em style="font-style:italic; color:var(--gold)">servicios</em></h2>
+    </div>
+    <div class="servicios-grid">
+      <div class="servicio-card" *ngFor="let s of servicios">
+        <div class="servicio-num">{{ s.num }}</div>
+        <div class="servicio-nombre">{{ s.nombre }}</div>
+        <p class="servicio-desc">{{ s.descripcion }}</p>
+        <span class="servicio-precio">Desde {{ s.precio }}</span>
+      </div>
+    </div>
+  </div>
+</section>
