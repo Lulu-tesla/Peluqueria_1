@@ -1,40 +1,51 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
-interface GaleriaItem {
-  nombre: string;
-  categoria: string;
-  tipo: string;
+interface FotoPreview {
+  url: string;
+  titulo: string;
+  span?: 'wide' | 'tall' | 'normal';
 }
 
 @Component({
   selector: 'app-galeria-preview',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './galeria-preview.html',
   styleUrl: './galeria-preview.css'
 })
 export class GaleriaPreview {
-  filtroActivo = 'todos';
-
-  galeria: GaleriaItem[] = [
-    { nombre: 'Corte Bob Clásico',     categoria: 'CORTE',    tipo: 'corte'    },
-    { nombre: 'Balayage Natural',      categoria: 'COLOR',    tipo: 'color'    },
-    { nombre: 'Ondas Románticas',      categoria: 'PEINADO',  tipo: 'peinado'  },
-    { nombre: 'Degradado Moderno',     categoria: 'BARBERÍA', tipo: 'barberia' },
-    { nombre: 'Mechas Californianas',  categoria: 'COLOR',    tipo: 'color'    },
-    { nombre: 'Corte Pixie',           categoria: 'CORTE',    tipo: 'corte'    },
-    { nombre: 'Recogido Elegante',     categoria: 'PEINADO',  tipo: 'peinado'  },
-    { nombre: 'Barba Perfilada',       categoria: 'BARBERÍA', tipo: 'barberia' },
-    { nombre: 'Ombré Caramelo',        categoria: 'COLOR',    tipo: 'color'    },
+  fotos: FotoPreview[] = [
+    {
+      url: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800',
+      titulo: 'Bob clásico',
+      span: 'wide'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800',
+      titulo: 'Balayage dorado',
+      span: 'tall'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?w=800',
+      titulo: 'Ondas suaves',
+      span: 'normal'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800',
+      titulo: 'Capas modernas',
+      span: 'normal'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800',
+      titulo: 'Hidratación profunda',
+      span: 'wide'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=800',
+      titulo: 'Recogido elegante',
+      span: 'normal'
+    }
   ];
-
-  get galeriaFiltrada(): GaleriaItem[] {
-    if (this.filtroActivo === 'todos') return this.galeria;
-    return this.galeria.filter(i => i.tipo === this.filtroActivo);
-  }
-
-  filtrar(tipo: string) {
-    this.filtroActivo = tipo;
-  }
 }

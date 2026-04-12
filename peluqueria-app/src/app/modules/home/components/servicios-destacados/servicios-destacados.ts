@@ -1,50 +1,46 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+interface ServicioDestacado {
+  nombre: string;
+  descripcion: string;
+  imagen: string;
+  precio: string;
+}
 
 @Component({
   selector: 'app-servicios-destacados',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './servicios-destacados.html',
   styleUrl: './servicios-destacados.css'
 })
 export class ServiciosDestacados {
-  servicios = [
+  servicios: ServicioDestacado[] = [
     {
-      num: '01',
-      nombre: 'Corte & Estilo',
-      descripcion: 'Técnica precisa adaptada a tu estructura facial y estilo de vida.',
-      precio: 'Bs. 80'
+      nombre: 'Cortes',
+      descripcion: 'Estilos modernos y clásicos adaptados a tu personalidad.',
+      imagen: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600',
+      precio: 'Desde Bs. 80'
     },
     {
-      num: '02',
-      nombre: 'Color & Mechas',
-      descripcion: 'Colorimetría profesional con productos de alta gama libres de amoniaco.',
-      precio: 'Bs. 150'
+      nombre: 'Color',
+      descripcion: 'Balayage, mechas y tintes con técnicas de vanguardia.',
+      imagen: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600',
+      precio: 'Desde Bs. 180'
     },
     {
-      num: '03',
       nombre: 'Tratamientos',
-      descripcion: 'Rituales capilares para restaurar brillo, fuerza y suavidad.',
-      precio: 'Bs. 120'
+      descripcion: 'Keratina, botox capilar e hidratación profunda.',
+      imagen: 'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=600',
+      precio: 'Desde Bs. 150'
     },
     {
-      num: '04',
-      nombre: 'Barbería',
-      descripcion: 'Corte, afeitado clásico y arreglo de barba con navaja.',
-      precio: 'Bs. 60'
-    },
-    {
-      num: '05',
       nombre: 'Peinados',
-      descripcion: 'Peinados para eventos especiales, bodas y ocasiones únicas.',
-      precio: 'Bs. 100'
-    },
-    {
-      num: '06',
-      nombre: 'Keratina',
-      descripcion: 'Alisado profesional de larga duración con tratamiento nutritivo.',
-      precio: 'Bs. 300'
+      descripcion: 'Recogidos, ondas y trenzas para cualquier ocasión.',
+      imagen: 'https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=600',
+      precio: 'Desde Bs. 120'
     }
   ];
 }

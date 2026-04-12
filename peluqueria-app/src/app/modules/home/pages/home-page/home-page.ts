@@ -5,7 +5,6 @@ import { Hero } from '../../components/hero/hero';
 import { ServiciosDestacados } from '../../components/servicios-destacados/servicios-destacados';
 import { GaleriaPreview } from '../../components/galeria-preview/galeria-preview';
 import { Opiniones } from '../../components/opiniones/opiniones';
-import { InfoSalon } from '../../components/info-salon/info-salon';
 import { Footer } from '../../components/footer/footer';
 import { BotonFlotante } from '../../components/boton-flotante/boton-flotante';
 
@@ -16,10 +15,9 @@ import { BotonFlotante } from '../../components/boton-flotante/boton-flotante';
     CommonModule,
     Navbar,
     Hero,
-    ServiciosDestacados,
     GaleriaPreview,
+    ServiciosDestacados,
     Opiniones,
-    InfoSalon,
     Footer,
     BotonFlotante,
   ],

@@ -4,6 +4,11 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
+      import('./modules/home/pages/home-page/home-page').then(m => m.HomePage)
+  },
+  {
+    path: 'galeria',
+    loadComponent: () =>
       import('./modules/home/pages/galeria-page/galeria-page').then(m => m.GaleriaPage)
   },
   {
@@ -20,11 +25,6 @@ export const routes: Routes = [
     path: 'opiniones',
     loadComponent: () =>
       import('./modules/home/pages/opiniones-page/opiniones-page').then(m => m.OpinionesPage)
-  },
-  {
-    path: 'home',
-    loadComponent: () =>
-      import('./modules/home/pages/home-page/home-page').then(m => m.HomePage)
   },
   {
     path: 'auth/login',

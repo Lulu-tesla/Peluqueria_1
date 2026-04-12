@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../../components/navbar/navbar';
-import { Footer } from '../../components/footer/footer';
 
 interface FotoGaleria {
   id: number;
@@ -13,7 +12,7 @@ interface FotoGaleria {
 @Component({
   selector: 'app-galeria-page',
   standalone: true,
-  imports: [CommonModule, Navbar, Footer],
+  imports: [CommonModule, Navbar],
   templateUrl: './galeria-page.html',
   styleUrl: './galeria-page.css'
 })

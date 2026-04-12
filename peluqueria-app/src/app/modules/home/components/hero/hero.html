@@ -1,27 +1,63 @@
-<section class="hero-section">
-  <div class="hero-content">
-    <span class="eyebrow">Peluquería · Estética · Bienestar</span>
-    <div class="gold-line"></div>
-    <h1 class="hero-title">
-      El arte<br>del <em>buen</em><br>corte
+<section class="hero">
+
+  <!-- FONDO DECORATIVO -->
+  <div class="hero__bg">
+    <div class="hero__bg-circle hero__bg-circle--1"></div>
+    <div class="hero__bg-circle hero__bg-circle--2"></div>
+  </div>
+
+  <div class="hero__contenido">
+
+    <!-- LOGO SVG -->
+    <div class="hero__logo-wrap">
+      <svg class="hero__logo-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Tijeras estilizadas -->
+        <circle cx="40" cy="40" r="38" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <!-- Hoja superior -->
+        <line x1="28" y1="26" x2="52" y2="54" stroke="#c9a84c" stroke-width="2.2" stroke-linecap="round"/>
+        <!-- Hoja inferior -->
+        <line x1="52" y1="26" x2="28" y2="54" stroke="#c9a84c" stroke-width="2.2" stroke-linecap="round"/>
+        <!-- Pivot -->
+        <circle cx="40" cy="40" r="3" fill="#c9a84c"/>
+        <!-- Aros -->
+        <circle cx="25" cy="57" r="5" stroke="#c9a84c" stroke-width="1.8"/>
+        <circle cx="55" cy="57" r="5" stroke="#c9a84c" stroke-width="1.8"/>
+      </svg>
+    </div>
+
+    <!-- EYEBROW -->
+    <span class="hero__eyebrow">Peluquería & Estética</span>
+
+    <!-- TÍTULO -->
+    <h1 class="hero__titulo">
+      <span class="hero__titulo-aura">Aura</span>
+      <span class="hero__titulo-studio">Studio</span>
     </h1>
-    <p class="hero-subtitle">
-      Donde cada detalle es intencional.<br>
-      Tu imagen, nuestra obsesión.
-    </p>
-    <div class="hero-actions">
-      <a href="#servicios" class="btn-gold">
-        <i class="bi bi-calendar3"></i>
-        <span>Reservar cita</span>
-      </a>
-      <a href="#galeria" class="btn-ghost">
-        <span>Ver galería</span>
-      </a>
+
+    <!-- FRASES -->
+    <div class="hero__frases">
+      <p class="hero__frase-principal">
+        Donde cada detalle es intención,<br>
+        <em>tu imagen nuestra obsesión.</em>
+      </p>
+      <div class="hero__divider">
+        <span></span><span class="hero__divider-icono">✦</span><span></span>
+      </div>
+      <p class="hero__frase-secundaria">El arte del buen corte.</p>
     </div>
-  </div>
-  <div class="hero-image">
-    <div class="hero-image-placeholder">
-      <div class="hero-monogram">AS</div>
+
+    <!-- BOTONES -->
+    <div class="hero__botones">
+      <a routerLink="/auth/login" class="hero__btn-reservar">Reservar turno</a>
+      <a routerLink="/galeria" class="hero__btn-galeria">Ver galería</a>
     </div>
+
   </div>
+
+  <!-- SCROLL INDICATOR -->
+  <div class="hero__scroll">
+    <span>Descubrí más</span>
+    <div class="hero__scroll-line"></div>
+  </div>
+
 </section>

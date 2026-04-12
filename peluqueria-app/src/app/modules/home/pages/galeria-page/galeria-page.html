@@ -2,16 +2,6 @@
 
 <main class="galeria-main">
 
-  <!-- HERO -->
-  <section class="galeria-hero">
-    <div class="galeria-hero__texto">
-      <span class="galeria-hero__eyebrow">Nuestro trabajo</span>
-      <h1 class="galeria-hero__titulo">Galería</h1>
-      <p class="galeria-hero__sub">Cada estilo cuenta una historia. Aquí contamos las nuestras.</p>
-    </div>
-    <div class="galeria-hero__linea"></div>
-  </section>
-
   <!-- FILTROS -->
   <section class="galeria-filtros">
     <button
@@ -45,5 +35,3 @@
   <img [src]="fotoAmpliada.url" [alt]="fotoAmpliada.titulo" (click)="$event.stopPropagation()" />
   <p class="lightbox__titulo">{{ fotoAmpliada.titulo }}</p>
 </div>
-
-<app-footer></app-footer>

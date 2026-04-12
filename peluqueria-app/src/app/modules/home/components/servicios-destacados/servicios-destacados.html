@@ -1,17 +1,29 @@
-<section class="servicios-section" id="servicios">
-  <div class="container-app">
-    <div class="section-header centered">
-      <span class="eyebrow">Lo que ofrecemos</span>
-      <div class="gold-line center"></div>
-      <h2>Nuestros <em style="font-style:italic; color:var(--gold)">servicios</em></h2>
-    </div>
-    <div class="servicios-grid">
-      <div class="servicio-card" *ngFor="let s of servicios">
-        <div class="servicio-num">{{ s.num }}</div>
-        <div class="servicio-nombre">{{ s.nombre }}</div>
-        <p class="servicio-desc">{{ s.descripcion }}</p>
-        <span class="servicio-precio">Desde {{ s.precio }}</span>
+<section class="servicios-destacados">
+
+  <div class="sd__cabecera">
+    <span class="sd__eyebrow">Lo que hacemos</span>
+    <h2 class="sd__titulo">Nuestros servicios</h2>
+    <p class="sd__sub">Cada servicio es una experiencia diseñada para realzar tu belleza natural.</p>
+  </div>
+
+  <div class="sd__grid">
+    <div class="sd__card" *ngFor="let s of servicios">
+      <div class="sd__card-img-wrap">
+        <img [src]="s.imagen" [alt]="s.nombre" loading="lazy" />
+        <div class="sd__card-overlay">
+          <a routerLink="/servicios" class="sd__card-overlay-btn">Ver todos</a>
+        </div>
+      </div>
+      <div class="sd__card-body">
+        <h3 class="sd__card-nombre">{{ s.nombre }}</h3>
+        <p class="sd__card-desc">{{ s.descripcion }}</p>
+        <span class="sd__card-precio">{{ s.precio }}</span>
       </div>
     </div>
   </div>
+
+  <div class="sd__footer">
+    <a routerLink="/servicios" class="sd__btn-ver-todos">Ver todos los servicios</a>
+  </div>
+
 </section>
