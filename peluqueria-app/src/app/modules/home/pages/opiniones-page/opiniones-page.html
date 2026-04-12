@@ -1,0 +1,49 @@
+<app-navbar></app-navbar>
+
+<main class="opiniones-main">
+
+  <!-- HERO -->
+  <section class="opiniones-hero">
+    <span class="opiniones-hero__eyebrow">Lo que dicen de nosotros</span>
+    <h1 class="opiniones-hero__titulo">Opiniones</h1>
+    <p class="opiniones-hero__sub">La satisfacción de nuestras clientas es nuestra mejor carta de presentación.</p>
+    <div class="opiniones-hero__linea"></div>
+  </section>
+
+  <!-- RESUMEN -->
+  <section class="opiniones-resumen">
+    <div class="resumen-numero">{{ promedioEstrellas }}</div>
+    <div class="resumen-estrellas">
+      <span *ngFor="let s of getEstrellas(5)">★</span>
+    </div>
+    <p class="resumen-texto">Basado en {{ opiniones.length }} reseñas verificadas</p>
+  </section>
+
+  <!-- CARDS -->
+  <section class="opiniones-grid">
+    <div class="opinion-card" *ngFor="let o of opiniones">
+      <div class="opinion-card__header">
+        <div class="opinion-card__avatar">{{ o.avatar }}</div>
+        <div class="opinion-card__info">
+          <span class="opinion-card__nombre">{{ o.nombre }}</span>
+          <span class="opinion-card__fecha">{{ o.fecha }}</span>
+        </div>
+      </div>
+      <div class="opinion-card__estrellas">
+        <span class="estrella llena" *ngFor="let s of getEstrellas(o.estrellas)">★</span>
+        <span class="estrella vacia" *ngFor="let s of getEstrellasVacias(o.estrellas)">★</span>
+      </div>
+      <p class="opinion-card__comentario">"{{ o.comentario }}"</p>
+      <span class="opinion-card__servicio">{{ o.servicio }}</span>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="opiniones-cta">
+    <p>¿Ya visitaste Aura Studio?</p>
+    <a routerLink="/auth/login" class="btn-gold-outline">Dejar mi opinión</a>
+  </section>
+
+</main>
+
+<app-footer></app-footer>

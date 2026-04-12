@@ -4,6 +4,26 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
+      import('./modules/home/pages/galeria-page/galeria-page').then(m => m.GaleriaPage)
+  },
+  {
+    path: 'servicios',
+    loadComponent: () =>
+      import('./modules/home/pages/servicios-page/servicios-page').then(m => m.ServiciosPage)
+  },
+  {
+    path: 'nosotros',
+    loadComponent: () =>
+      import('./modules/home/pages/nosotros-page/nosotros-page').then(m => m.NosotrosPage)
+  },
+  {
+    path: 'opiniones',
+    loadComponent: () =>
+      import('./modules/home/pages/opiniones-page/opiniones-page').then(m => m.OpinionesPage)
+  },
+  {
+    path: 'home',
+    loadComponent: () =>
       import('./modules/home/pages/home-page/home-page').then(m => m.HomePage)
   },
   {

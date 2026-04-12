@@ -1,0 +1,49 @@
+<app-navbar></app-navbar>
+
+<main class="galeria-main">
+
+  <!-- HERO -->
+  <section class="galeria-hero">
+    <div class="galeria-hero__texto">
+      <span class="galeria-hero__eyebrow">Nuestro trabajo</span>
+      <h1 class="galeria-hero__titulo">Galería</h1>
+      <p class="galeria-hero__sub">Cada estilo cuenta una historia. Aquí contamos las nuestras.</p>
+    </div>
+    <div class="galeria-hero__linea"></div>
+  </section>
+
+  <!-- FILTROS -->
+  <section class="galeria-filtros">
+    <button
+      *ngFor="let cat of categorias"
+      class="filtro-btn"
+      [class.activo]="categoriaActiva === cat"
+      (click)="setCategoria(cat)">
+      {{ cat | titlecase }}
+    </button>
+  </section>
+
+  <!-- GRID -->
+  <section class="galeria-grid">
+    <div
+      class="galeria-item"
+      *ngFor="let foto of fotosFiltradas"
+      (click)="abrirFoto(foto)">
+      <img [src]="foto.url" [alt]="foto.titulo" loading="lazy" />
+      <div class="galeria-item__overlay">
+        <span class="galeria-item__titulo">{{ foto.titulo }}</span>
+        <span class="galeria-item__cat">{{ foto.categoria }}</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" *ngIf="fotoAmpliada" (click)="cerrarFoto()">
+  <button class="lightbox__cerrar" (click)="cerrarFoto()">✕</button>
+  <img [src]="fotoAmpliada.url" [alt]="fotoAmpliada.titulo" (click)="$event.stopPropagation()" />
+  <p class="lightbox__titulo">{{ fotoAmpliada.titulo }}</p>
+</div>
+
+<app-footer></app-footer>

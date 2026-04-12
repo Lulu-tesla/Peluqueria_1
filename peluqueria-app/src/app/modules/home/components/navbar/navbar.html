@@ -1,13 +1,13 @@
 <nav class="navbar-app" [class.scrolled]="scrolled">
   <div class="container-app" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
 
-    <a href="/" class="navbar-logo">Aura Studio</a>
+    <a routerLink="/" class="navbar-logo">Aura Studio</a>
 
     <ul class="navbar-links" [class.open]="menuOpen">
-      <li><a href="#servicios" (click)="closeMenu()">Servicios</a></li>
-      <li><a href="#galeria" (click)="closeMenu()">Galería</a></li>
-      <li><a href="#opiniones" (click)="closeMenu()">Opiniones</a></li>
-      <li><a href="#contacto" (click)="closeMenu()">Contacto</a></li>
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" (click)="closeMenu()">Galería</a></li>
+      <li><a routerLink="/servicios" routerLinkActive="active" (click)="closeMenu()">Servicios</a></li>
+      <li><a routerLink="/opiniones" routerLinkActive="active" (click)="closeMenu()">Opiniones</a></li>
+      <li><a routerLink="/nosotros" routerLinkActive="active" (click)="closeMenu()">Nosotros</a></li>
       <li>
         <a routerLink="/auth/login" class="btn-gold" (click)="closeMenu()">
           <span>Reservar</span>
@@ -15,10 +15,7 @@
       </li>
     </ul>
 
-    <button class="navbar-burger btn-icon" 
-            (click)="toggleMenu()" 
-            aria-label="Menú"
-            style="display:none;">
+    <button class="navbar-burger btn-icon" (click)="toggleMenu()" aria-label="Menú">
       <i class="bi" [class.bi-list]="!menuOpen" [class.bi-x-lg]="menuOpen"></i>
     </button>
 

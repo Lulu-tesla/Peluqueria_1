@@ -1,0 +1,80 @@
+<app-navbar></app-navbar>
+
+<main class="nosotros-main">
+
+  <!-- HERO -->
+  <section class="nosotros-hero">
+    <span class="nosotros-hero__eyebrow">Quiénes somos</span>
+    <h1 class="nosotros-hero__titulo">Nosotros</h1>
+    <p class="nosotros-hero__sub">Más que un salón — un espacio donde el arte y el cuidado se encuentran.</p>
+    <div class="nosotros-hero__linea"></div>
+  </section>
+
+  <!-- HISTORIA -->
+  <section class="nosotros-historia">
+    <div class="historia-contenido">
+      <div class="historia-texto">
+        <span class="seccion-eyebrow">Nuestra historia</span>
+        <h2 class="seccion-titulo">Nacimos de una pasión</h2>
+        <p>Aura Studio nació en 2018 con una idea simple: crear un lugar donde cada persona salga sintiéndose la mejor versión de sí misma. Lo que empezó como un pequeño estudio se convirtió en uno de los salones de referencia de la ciudad.</p>
+        <p>Hoy somos un equipo de profesionales apasionados, en constante formación, comprometidos con la calidad y el bienestar de cada clienta que cruza nuestra puerta.</p>
+        <a routerLink="/servicios" class="btn-gold-outline">Ver nuestros servicios</a>
+      </div>
+      <div class="historia-stats">
+        <div class="stat">
+          <span class="stat__numero">6+</span>
+          <span class="stat__label">Años de experiencia</span>
+        </div>
+        <div class="stat">
+          <span class="stat__numero">2k+</span>
+          <span class="stat__label">Clientas satisfechas</span>
+        </div>
+        <div class="stat">
+          <span class="stat__numero">4</span>
+          <span class="stat__label">Especialistas</span>
+        </div>
+        <div class="stat">
+          <span class="stat__numero">12+</span>
+          <span class="stat__label">Servicios disponibles</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALORES -->
+  <section class="nosotros-valores">
+    <span class="seccion-eyebrow centrado">Lo que nos mueve</span>
+    <h2 class="seccion-titulo centrado">Nuestros valores</h2>
+    <div class="valores-grid">
+      <div class="valor-card" *ngFor="let v of valores">
+        <span class="valor-card__icono">{{ v.icono }}</span>
+        <h3 class="valor-card__titulo">{{ v.titulo }}</h3>
+        <p class="valor-card__desc">{{ v.descripcion }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPO -->
+  <section class="nosotros-equipo">
+    <span class="seccion-eyebrow centrado">Las personas detrás del estudio</span>
+    <h2 class="seccion-titulo centrado">Nuestro equipo</h2>
+    <div class="equipo-grid">
+      <div class="miembro-card" *ngFor="let m of equipo">
+        <div class="miembro-card__avatar">{{ m.avatar }}</div>
+        <h3 class="miembro-card__nombre">{{ m.nombre }}</h3>
+        <span class="miembro-card__rol">{{ m.rol }}</span>
+        <span class="miembro-card__especialidad">{{ m.especialidad }}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="nosotros-cta">
+    <h2>¿Lista para tu próxima visita?</h2>
+    <p>Reservá tu turno y dejate cuidar por nuestro equipo.</p>
+    <a routerLink="/auth/login" class="btn-gold">Reservar ahora</a>
+  </section>
+
+</main>
+
+<app-footer></app-footer>

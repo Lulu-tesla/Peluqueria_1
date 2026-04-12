@@ -1,0 +1,15 @@
+.footer-app {
+  background: var(--bg-dark) !important;
+}
+
+.footer-col ul li a {
+  color: #7a7a78;
+}
+
+.footer-col ul li a:hover {
+  color: var(--white);
+}
+
+.footer-bottom span {
+  color: #4a4a48;
+}
