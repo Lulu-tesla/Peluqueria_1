@@ -6,23 +6,25 @@
    VARIABLES GLOBALES — Paleta Crema & Dorado
    ============================================ */
 :root {
-  --bg-primary:    #faf8f4;
-  --bg-secondary:  #f4f0e8;
-  --bg-tertiary:   #ede8dc;
+  --bg-primary:    #f2f2f0;
+  --bg-secondary:  #e8e8e5;
+  --bg-tertiary:   #ddddd9;
   --bg-card:       #ffffff;
+  --bg-dark:       #1c1c1c;
+  --bg-dark-soft:  #242424;
 
   --gold:          #b8922a;
   --gold-light:    #d4aa4e;
   --gold-dim:      rgba(184,146,42,0.12);
-  --gold-border:   rgba(184,146,42,0.25);
+  --gold-border:   rgba(184,146,42,0.28);
 
-  --text-primary:  #1a1714;
-  --text-secondary:#4a4540;
-  --text-muted:    #8a8178;
-  --text-light:    #b8b0a4;
+  --text-primary:  #1a1a1a;
+  --text-secondary:#3a3a3a;
+  --text-muted:    #7a7a78;
+  --text-light:    #a8a8a5;
 
-  --border:        rgba(26,23,20,0.08);
-  --border-mid:    rgba(26,23,20,0.14);
+  --border:        rgba(0,0,0,0.07);
+  --border-mid:    rgba(0,0,0,0.12);
 
   --white:         #ffffff;
 
@@ -33,9 +35,9 @@
   --transition-normal: 0.35s ease;
   --transition-slow:   0.6s ease;
 
-  --shadow-sm:   0 2px 12px rgba(26,23,20,0.06);
-  --shadow-md:   0 4px 24px rgba(26,23,20,0.1);
-  --shadow-gold: 0 4px 20px rgba(184,146,42,0.15);
+  --shadow-sm:   0 2px 12px rgba(0,0,0,0.06);
+  --shadow-md:   0 4px 24px rgba(0,0,0,0.1);
+  --shadow-gold: 0 4px 20px rgba(184,146,42,0.2);
 
   --max-width: 1280px;
   --navbar-h:  72px;
@@ -759,4 +761,45 @@ section {
 @media (max-width: 480px) {
   .hero-actions { flex-direction: column; }
   .btn-gold, .btn-gold-solid { justify-content: center; }
+}
+/* ============================================
+   SECCIONES OSCURAS DE CONTRASTE
+   ============================================ */
+.section-dark {
+  background: var(--bg-dark) !important;
+  color: var(--white);
+}
+
+.section-dark h2,
+.section-dark h3,
+.section-dark h4 {
+  color: var(--white);
+}
+
+.section-dark p {
+  color: #a8a8a5;
+}
+
+.section-dark .eyebrow {
+  color: var(--gold-light);
+}
+
+.section-dark .gold-line {
+  background: var(--gold-light);
+}
+
+.section-dark .resena-texto {
+  color: var(--white);
+}
+
+.section-dark .resena-card {
+  background: var(--bg-dark-soft);
+}
+
+.section-dark .resena-card:hover {
+  background: #2a2a2a;
+}
+
+.section-dark .resena-autor {
+  color: #6a6a68;
 }

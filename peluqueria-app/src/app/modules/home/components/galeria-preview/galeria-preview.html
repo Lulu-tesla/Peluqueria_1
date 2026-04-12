@@ -1,1 +1,38 @@
-<p>galeria-preview works!</p>
+<section class="galeria-section" id="galeria">
+  <div class="container-app">
+
+    <div class="section-header centered">
+      <span class="eyebrow">Nuestro trabajo</span>
+      <div class="gold-line center"></div>
+      <h2>Galería de <em style="font-style:italic; color:var(--gold)">estilos</em></h2>
+    </div>
+
+    <div class="galeria-filtros">
+      <button class="filtro-btn" [class.active]="filtroActivo === 'todos'" (click)="filtrar('todos')">Todos</button>
+      <button class="filtro-btn" [class.active]="filtroActivo === 'corte'" (click)="filtrar('corte')">Cortes</button>
+      <button class="filtro-btn" [class.active]="filtroActivo === 'color'" (click)="filtrar('color')">Color</button>
+      <button class="filtro-btn" [class.active]="filtroActivo === 'peinado'" (click)="filtrar('peinado')">Peinados</button>
+      <button class="filtro-btn" [class.active]="filtroActivo === 'barberia'" (click)="filtrar('barberia')">Barbería</button>
+    </div>
+
+    <div class="galeria-grid-preview">
+      <div class="galeria-item-preview" *ngFor="let item of galeriaFiltrada">
+        <div class="galeria-placeholder">
+          <span class="galeria-categoria">{{ item.categoria }}</span>
+          <span class="galeria-nombre">{{ item.nombre }}</span>
+        </div>
+        <div class="galeria-overlay">
+          <span class="galeria-overlay-text">{{ item.nombre }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:3rem;">
+      <a href="#" class="btn-gold">
+        <span>Ver galería completa</span>
+        <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+
+  </div>
+</section>

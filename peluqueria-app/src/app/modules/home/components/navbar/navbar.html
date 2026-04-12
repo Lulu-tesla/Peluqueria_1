@@ -9,13 +9,16 @@
       <li><a href="#opiniones" (click)="closeMenu()">Opiniones</a></li>
       <li><a href="#contacto" (click)="closeMenu()">Contacto</a></li>
       <li>
-        <a href="/auth/login" class="btn-gold" (click)="closeMenu()">
+        <a routerLink="/auth/login" class="btn-gold" (click)="closeMenu()">
           <span>Reservar</span>
         </a>
       </li>
     </ul>
 
-    <button class="navbar-burger btn-icon" (click)="toggleMenu()" aria-label="Menú">
+    <button class="navbar-burger btn-icon" 
+            (click)="toggleMenu()" 
+            aria-label="Menú"
+            style="display:none;">
       <i class="bi" [class.bi-list]="!menuOpen" [class.bi-x-lg]="menuOpen"></i>
     </button>
 
