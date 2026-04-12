@@ -19,11 +19,14 @@
       class="galeria-item"
       *ngFor="let foto of fotosFiltradas"
       (click)="abrirFoto(foto)">
+      
       <img [src]="foto.url" [alt]="foto.titulo" loading="lazy" />
+
       <div class="galeria-item__overlay">
         <span class="galeria-item__titulo">{{ foto.titulo }}</span>
         <span class="galeria-item__cat">{{ foto.categoria }}</span>
       </div>
+
     </div>
   </section>
 
@@ -32,6 +35,10 @@
 <!-- LIGHTBOX -->
 <div class="lightbox" *ngIf="fotoAmpliada" (click)="cerrarFoto()">
   <button class="lightbox__cerrar" (click)="cerrarFoto()">✕</button>
-  <img [src]="fotoAmpliada.url" [alt]="fotoAmpliada.titulo" (click)="$event.stopPropagation()" />
+  <img 
+    [src]="fotoAmpliada.url" 
+    [alt]="fotoAmpliada.titulo" 
+    (click)="$event.stopPropagation()" 
+  />
   <p class="lightbox__titulo">{{ fotoAmpliada.titulo }}</p>
 </div>

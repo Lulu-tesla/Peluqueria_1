@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import { LoginComponent } from './modules/auth/components/login/login';
+import { RegistroComponent } from './modules/auth/components/registro/registro';
+import { RecuperarPasswordComponent } from './modules/auth/components/recuperar-password/recuperar-password';
 
 export const routes: Routes = [
   {
@@ -26,16 +29,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./modules/home/pages/opiniones-page/opiniones-page').then(m => m.OpinionesPage)
   },
-  {
-    path: 'auth/login',
-    loadComponent: () =>
-      import('./modules/auth/components/login/login').then(m => m.Login)
-  },
-  {
-    path: 'auth/registro',
-    loadComponent: () =>
-      import('./modules/auth/components/registro/registro').then(m => m.Registro)
-  },
+  { path: 'login',              component: LoginComponent },
+  { path: 'registro',           component: RegistroComponent },
+  { path: 'recuperar-password', component: RecuperarPasswordComponent },
   {
     path: 'cliente',
     loadComponent: () =>
@@ -46,8 +42,5 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./modules/admin/components/dashboard/dashboard').then(m => m.Dashboard)
   },
-  {
-    path: '**',
-    redirectTo: ''
-  }
+  { path: '**', redirectTo: 'login' }
 ];

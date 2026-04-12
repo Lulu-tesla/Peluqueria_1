@@ -1,1 +1,87 @@
-<p>registro works!</p>
+    <div class="registro-container">
+    <div class="card">
+        <div class="header">
+        <h2>Crear cuenta</h2>
+        <p>Reserva citas y gestiona tu historial</p>
+        </div>
+
+        <div *ngIf="errorMsg" class="alerta-error">
+        {{ errorMsg }}
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="fila">
+            <div class="campo">
+            <label>Nombre *</label>
+            <input type="text" formControlName="nombre" placeholder="Ana">
+            <span class="error" *ngIf="f['nombre'].touched && f['nombre'].errors?.['required']">
+                El nombre es requerido
+            </span>
+            </div>
+            <div class="campo">
+            <label>Apellido *</label>
+            <input type="text" formControlName="apellido" placeholder="García">
+            <span class="error" *ngIf="f['apellido'].touched && f['apellido'].errors?.['required']">
+                El apellido es requerido
+            </span>
+            </div>
+        </div>
+
+        <div class="campo">
+            <label>Correo electrónico *</label>
+            <input type="email" formControlName="email" placeholder="ana@correo.com">
+            <span class="error" *ngIf="f['email'].touched && f['email'].errors?.['email']">
+            Ingresa un correo válido
+            </span>
+        </div>
+
+        <div class="campo">
+            <label>Teléfono</label>
+            <input type="tel" formControlName="telefono" placeholder="+591 7XXXXXXX">
+        </div>
+
+        <div class="campo">
+            <label>Contraseña *</label>
+            <div class="pass-wrap">
+            <input [type]="mostrarPassword ? 'text' : 'password'"
+                    formControlName="password" placeholder="Mínimo 8 caracteres">
+            <button type="button" (click)="mostrarPassword = !mostrarPassword">
+                {{ mostrarPassword ? '🙈' : '👁' }}
+            </button>
+            </div>
+            <span class="error" *ngIf="f['password'].touched && f['password'].errors?.['minlength']">
+            Mínimo 8 caracteres
+            </span>
+        </div>
+
+        <div class="campo">
+            <label>Confirmar contraseña *</label>
+            <div class="pass-wrap">
+            <input [type]="mostrarConfirm ? 'text' : 'password'"
+                    formControlName="confirmarPassword" placeholder="Repite tu contraseña">
+            <button type="button" (click)="mostrarConfirm = !mostrarConfirm">
+                {{ mostrarConfirm ? '🙈' : '👁' }}
+            </button>
+            </div>
+            <span class="error" *ngIf="f['confirmarPassword'].touched && form.errors?.['noCoinciden']">
+            Las contraseñas no coinciden
+            </span>
+        </div>
+
+        <div class="terminos">
+            <input type="checkbox" formControlName="terminos" id="terminos">
+            <label for="terminos">
+            Acepto los <a href="#">términos y condiciones</a>
+            </label>
+        </div>
+
+        <button type="submit" [disabled]="form.invalid || cargando" class="btn-primary">
+            {{ cargando ? 'Registrando...' : 'Crear cuenta' }}
+        </button>
+        </form>
+
+        <p class="login-link">
+        ¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a>
+        </p>
+    </div>
+    </div>
