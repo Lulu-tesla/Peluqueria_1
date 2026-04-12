@@ -1,1 +1,46 @@
-<p>login works!</p>
+<div class="login-container">
+  <div class="card">
+    <div class="header">
+      <h2>Iniciar sesión</h2>
+      <p>Bienvenido de vuelta</p>
+    </div>
+
+    <div *ngIf="errorMsg" class="alerta-error">
+      {{ errorMsg }}
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="campo">
+        <label>Correo electrónico</label>
+        <input type="email" formControlName="email" placeholder="ana@correo.com">
+        <span class="error" *ngIf="f['email'].touched && f['email'].errors?.['email']">
+          Ingresa un correo válido
+        </span>
+      </div>
+
+      <div class="campo">
+        <label>Contraseña</label>
+        <div class="pass-wrap">
+          <input [type]="mostrarPassword ? 'text' : 'password'"
+                 formControlName="password" placeholder="Tu contraseña">
+          <button type="button" (click)="mostrarPassword = !mostrarPassword">
+            {{ mostrarPassword ? '🙈' : '👁' }}
+          </button>
+        </div>
+        <span class="error" *ngIf="f['password'].touched && f['password'].errors?.['minlength']">
+          Mínimo 8 caracteres
+        </span>
+      </div>
+
+      <a routerLink="/recuperar-password" class="olvide">¿Olvidaste tu contraseña?</a>
+
+      <button type="submit" [disabled]="form.invalid || cargando" class="btn-primary">
+        {{ cargando ? 'Ingresando...' : 'Iniciar sesión' }}
+      </button>
+    </form>
+
+    <p class="registro-link">
+      ¿No tienes cuenta? <a routerLink="/registro">Regístrate</a>
+    </p>
+  </div>
+</div>
