@@ -1,8 +1,6 @@
 <app-navbar></app-navbar>
 
 <main class="servicios-main">
-
-  <!-- HERO -->
   <section class="servicios-hero">
     <span class="servicios-hero__eyebrow">Lo que ofrecemos</span>
     <h1 class="servicios-hero__titulo">Servicios</h1>
@@ -10,10 +8,8 @@
     <div class="servicios-hero__linea"></div>
   </section>
 
-  <!-- FILTROS -->
   <section class="servicios-filtros">
-    <button
-      *ngFor="let cat of categorias"
+    <button *ngFor="let cat of categorias"
       class="filtro-btn"
       [class.activo]="categoriaActiva === cat"
       (click)="setCategoria(cat)">
@@ -21,7 +17,6 @@
     </button>
   </section>
 
-  <!-- CARDS -->
   <section class="servicios-grid">
     <div class="servicio-card" *ngFor="let s of serviciosFiltrados">
       <div class="servicio-card__icono">{{ s.icono }}</div>
@@ -33,16 +28,14 @@
           <span class="servicio-card__precio">{{ s.precio }}</span>
         </div>
       </div>
-      <a routerLink="/auth/login" class="servicio-card__btn">Reservar</a>
+      <a [routerLink]="['/reservar', s.id]" class="servicio-card__btn">Reservar</a>
     </div>
   </section>
 
-  <!-- CTA FINAL -->
   <section class="servicios-cta">
     <p>¿No encontrás lo que buscás?</p>
     <a routerLink="/nosotros" class="btn-gold-outline">Contáctanos</a>
   </section>
-
 </main>
 
 <app-footer></app-footer>

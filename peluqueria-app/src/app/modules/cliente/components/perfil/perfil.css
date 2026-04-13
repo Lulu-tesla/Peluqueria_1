@@ -1,0 +1,230 @@
+.perfil-wrapper {
+  max-width: 1200px;
+  margin: 100px auto 3rem;
+  padding: 0 1.5rem;
+  color: var(--color-texto);
+}
+
+.perfil-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.perfil-info-principal {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.avatar-grande {
+  width: 80px;
+  height: 80px;
+  background-color: var(--color-gold);
+  color: var(--color-fondo);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.texto-header h1 {
+  color: var(--color-gold);
+  margin-bottom: 0.3rem;
+}
+
+.texto-header p {
+  color: var(--color-texto-suave);
+}
+
+/* Layout de Rejilla */
+.perfil-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2.5rem;
+}
+
+@media (max-width: 900px) {
+  .perfil-grid {
+    grid-template-columns: 1fr;
+  }
+  .perfil-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  .perfil-info-principal {
+    flex-direction: column;
+  }
+}
+
+.titulo-seccion {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Tarjeta de Cita Próxima */
+.card-cita-proxima {
+  background-color: var(--color-superficie);
+  border-radius: 15px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  border-left: 5px solid var(--color-gold);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  margin-bottom: 2.5rem;
+}
+
+.cita-fecha-box {
+  background-color: var(--color-fondo);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 70px;
+}
+
+.cita-fecha-box .mes {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-gold);
+}
+
+.cita-fecha-box .dia {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.cita-detalles h3 {
+  margin-bottom: 0.5rem;
+}
+
+.cita-detalles p {
+  color: var(--color-texto-suave);
+  font-size: 0.9rem;
+  margin-bottom: 0.2rem;
+}
+
+.cita-monto {
+  margin-left: auto;
+  text-align: right;
+}
+
+.cita-monto .precio {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--color-gold);
+  margin-bottom: 0.5rem;
+}
+
+/* Historial */
+.tabla-historial-wrapper {
+  background-color: var(--color-superficie);
+  border-radius: 12px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.tabla-historial {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-historial th, .tabla-historial td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.tabla-historial th {
+  color: var(--color-texto-suave);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.monto-final {
+  font-weight: bold;
+}
+
+/* Sidebar */
+.panel-info, .panel-lealtad {
+  background-color: var(--color-superficie);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.panel-info h3, .panel-lealtad h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 0.5rem;
+}
+
+.dato-item {
+  margin-bottom: 1rem;
+}
+
+.dato-item label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-texto-suave);
+  margin-bottom: 0.2rem;
+}
+
+.badge-rol {
+  background-color: rgba(201, 168, 76, 0.1);
+  color: var(--color-gold);
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+/* Barra de Progreso */
+.progress-bar {
+  background-color: var(--color-fondo);
+  height: 8px;
+  border-radius: 4px;
+  margin: 1rem 0 0.5rem;
+}
+
+.progress {
+  background-color: var(--color-gold);
+  height: 100%;
+  border-radius: 4px;
+}
+
+/* Botones Genéricos */
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--color-gold);
+  color: var(--color-gold);
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-outline:hover {
+  background-color: var(--color-gold);
+  color: var(--color-fondo);
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--color-gold);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.9rem;
+}

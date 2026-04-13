@@ -1,5 +1,43 @@
 @media (max-width: 768px) {
   .navbar-burger {
     display: flex !important;
+    cursor: pointer;
+  }
+  /* Estilo para que el menú se despliegue */
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: #1a1a1a;
+    padding: 20px;
+    border-bottom: 1px solid var(--color-gold);
+  }
+  .navbar-links.open {
+    display: flex; /* Se muestra cuando activas la clase desde el TS */
+  }
+}
+
+.btn-logout-nav {
+  color: #a09080;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-logout-nav:hover { color: #ff4d4d; }
+
+@media (max-width: 768px) {
+  .btn-logout-nav {
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
   }
 }

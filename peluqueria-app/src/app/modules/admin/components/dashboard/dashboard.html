@@ -1,1 +1,99 @@
-<p>dashboard works!</p>
+<div class="dashboard-wrapper">
+  
+  <header class="dashboard-header">
+    <div class="saludo">
+      <h1>Hola, {{ authService.currentUser()?.nombre || 'Administrador' }} 👋</h1>
+      <p>Aquí tienes el resumen de tu salón para el día de hoy.</p>
+    </div>
+    <div class="acciones-rapidas">
+      <button class="btn-primary" routerLink="/admin/gestionar-citas">+ Nueva Cita Manual</button>
+    </div>
+  </header>
+
+  <section class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon"><i class="bi bi-calendar-check"></i></div>
+      <div class="stat-info">
+        <h3>{{ metricas.citasHoy }}</h3>
+        <p>Citas para Hoy</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"><i class="bi bi-cash-stack"></i></div>
+      <div class="stat-info">
+        <h3>${{ metricas.ingresosHoy }}</h3>
+        <p>Ingresos Estimados</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"><i class="bi bi-people"></i></div>
+      <div class="stat-info">
+        <h3>{{ metricas.nuevosClientes }}</h3>
+        <p>Clientes Nuevos</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="dashboard-content">
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Próximas Citas (Hoy)</h2>
+        <a routerLink="/admin/gestionar-citas" class="link-ver-todo">Ver agenda completa</a>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="citas-table">
+          <thead>
+            <tr>
+              <th>Hora</th>
+              <th>Cliente</th>
+              <th>Servicio</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cita of citasDeHoy">
+              <td><strong>{{ cita.hora | date:'HH:mm' }}</strong></td>
+              <td>{{ cita.cliente }}</td>
+              <td>{{ cita.servicio }}</td>
+              <td>
+                <span class="badge" 
+                      [ngClass]="{'badge-pendiente': cita.estado === 'pendiente', 
+                                 'badge-confirmada': cita.estado === 'confirmada',
+                                 'badge-completada': cita.estado === 'completada'}">
+                  {{ cita.estado | titlecase }}
+                </span>
+              </td>
+              <td class="td-acciones">
+                <button *ngIf="cita.estado === 'pendiente'" 
+                        class="btn-icon check" 
+                        (click)="cambiarEstado(cita.id, 'confirmada')" title="Confirmar">
+                  ✓
+                </button>
+                <button *ngIf="cita.estado === 'confirmada'" 
+                        class="btn-icon check-all" 
+                        (click)="cambiarEstado(cita.id, 'completada')" title="Marcar como completada">
+                  ✔✔
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="citasDeHoy.length === 0">
+              <td colspan="5" class="text-center">No hay citas programadas para hoy.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="panel menu-admin">
+      <h2>Gestión del Salón</h2>
+      <ul class="admin-links">
+        <li><a routerLink="/admin/gestionar-servicios"><i class="bi bi-scissors"></i> Servicios y Precios</a></li>
+        <li><a routerLink="/admin/gestionar-clientes"><i class="bi bi-person-lines-fill"></i> Directorio de Clientes</a></li>
+        <li><a routerLink="/admin/estadisticas"><i class="bi bi-graph-up"></i> Estadísticas y Reportes</a></li>
+        <li><a routerLink="/admin/perfil-salon"><i class="bi bi-gear"></i> Configuración del Salón</a></li>
+      </ul>
+    </aside>
+  </div>
+</div>

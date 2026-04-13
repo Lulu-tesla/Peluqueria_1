@@ -1,1 +1,103 @@
-<p>formulario-cita works!</p>
+<div class="reserva-wrapper">
+  
+  <header class="reserva-header">
+    <h1>Reserva tu cita</h1>
+    <p>Estás a unos pasos de tu próximo cambio de look.</p>
+  </header>
+
+  <div class="stepper">
+    <div class="step" [class.active]="pasoActual() >= 1">1. Servicio</div>
+    <div class="step" [class.active]="pasoActual() >= 2">2. Fecha y Hora</div>
+    <div class="step" [class.active]="pasoActual() === 3">3. Confirmar</div>
+  </div>
+
+  <form [formGroup]="reservaForm" class="reserva-body">
+    
+    <div *ngIf="pasoActual() === 1" class="paso-contenedor">
+      <h2>¿Qué servicio deseas realizarte?</h2>
+      <div class="grid-servicios">
+        <label *ngFor="let s of servicios" class="card-servicio-radio">
+          <input type="radio" formControlName="servicioId" [value]="s.id">
+          <div class="card-content">
+            <span class="nombre">{{ s.nombre }}</span>
+            <span class="detalles">{{ s.duracion }} • <strong>${{ s.precio }}</strong></span>
+          </div>
+        </label>
+      </div>
+      <div class="acciones-paso">
+        <button type="button" class="btn-primary" [disabled]="reservaForm.get('servicioId')?.invalid" (click)="avanzar()">
+          Continuar
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="pasoActual() === 2" class="paso-contenedor">
+      <h2>Elige tu momento ideal</h2>
+      
+      <div class="form-group">
+        <label>Especialista preferido</label>
+        <select formControlName="especialista" class="input-dark">
+          <option value="" disabled>Selecciona a tu profesional...</option>
+          <option *ngFor="let e of especialistas" [value]="e">{{ e }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Fecha de la cita</label>
+        <input type="date" formControlName="fecha" class="input-dark">
+      </div>
+
+      <div class="form-group" *ngIf="reservaForm.get('fecha')?.value">
+        <label>Horarios disponibles</label>
+        <div class="grid-horas">
+          <button type="button" *ngFor="let hora of horasDisponibles" 
+                  class="btn-hora" 
+                  [class.hora-activa]="reservaForm.get('hora')?.value === hora"
+                  (click)="seleccionarHora(hora)">
+            {{ hora }}
+          </button>
+        </div>
+      </div>
+
+      <div class="acciones-paso dobles">
+        <button type="button" class="btn-outline" (click)="retroceder()">Atrás</button>
+        <button type="button" class="btn-primary" 
+                [disabled]="reservaForm.get('fecha')?.invalid || reservaForm.get('hora')?.invalid || reservaForm.get('especialista')?.invalid" 
+                (click)="avanzar()">
+          Ver Resumen
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="pasoActual() === 3" class="paso-contenedor">
+      <h2>Revisa tu reserva</h2>
+      
+      <div class="resumen-card">
+        <div class="resumen-item">
+          <span class="label">Servicio</span>
+          <span class="valor">{{ servicioSeleccionado?.nombre }}</span>
+        </div>
+        <div class="resumen-item">
+          <span class="label">Profesional</span>
+          <span class="valor">{{ reservaForm.get('especialista')?.value }}</span>
+        </div>
+        <div class="resumen-item">
+          <span class="label">Fecha y Hora</span>
+          <span class="valor">{{ reservaForm.get('fecha')?.value | date:'dd/MM/yyyy' }} a las {{ reservaForm.get('hora')?.value }} hs</span>
+        </div>
+        <div class="resumen-total">
+          <span>Total estimado</span>
+          <span class="precio-total">${{ servicioSeleccionado?.precio }}</span>
+        </div>
+      </div>
+
+      <div class="acciones-paso dobles">
+        <button type="button" class="btn-outline" (click)="retroceder()" [disabled]="cargando()">Modificar</button>
+        <button type="button" class="btn-gold-solid" (click)="confirmarReserva()" [disabled]="cargando()">
+          {{ cargando() ? 'Procesando...' : 'Confirmar Reserva' }}
+        </button>
+      </div>
+    </div>
+
+  </form>
+</div>

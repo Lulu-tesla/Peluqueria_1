@@ -8,11 +8,30 @@
       <li><a routerLink="/servicios" routerLinkActive="active" (click)="closeMenu()">Servicios</a></li>
       <li><a routerLink="/opiniones" routerLinkActive="active" (click)="closeMenu()">Opiniones</a></li>
       <li><a routerLink="/nosotros" routerLinkActive="active" (click)="closeMenu()">Nosotros</a></li>
-      <li>
-        <a routerLink="/auth/login" class="btn-gold" (click)="closeMenu()">
-          <span>Reservar</span>
-        </a>
-      </li>
+      
+      <ng-container *ngIf="!authService.currentUser()">
+        <li>
+          <a routerLink="/auth/login" class="btn-gold" (click)="closeMenu()">
+            <span>Reservar</span>
+          </a>
+        </li>
+      </ng-container>
+
+      <ng-container *ngIf="authService.currentUser() as usuario">
+        
+        <li>
+          <a [routerLink]="usuario.rol === 'admin' ? '/admin' : '/cliente'" class="btn-gold" (click)="closeMenu()">
+            <span>{{ usuario.rol === 'admin' ? 'Dashboard' : 'Mi Perfil' }}</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="btn-logout-nav" (click)="cerrarSesion()" style="cursor:pointer;">
+            <span>Salir</span>
+          </a>
+        </li>
+      </ng-container>
+
     </ul>
 
     <button class="navbar-burger btn-icon" (click)="toggleMenu()" aria-label="Menú">

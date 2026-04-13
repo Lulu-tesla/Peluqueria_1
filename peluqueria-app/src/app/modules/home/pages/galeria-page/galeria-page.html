@@ -1,44 +1,55 @@
 <app-navbar></app-navbar>
 
-<main class="galeria-main">
+<main class="galeria-wrapper">
+  
+  <header class="galeria-header">
+    <h1>Nuestro Trabajo</h1>
+    <p>Inspírate con los mejores estilos creados por el equipo de Aura Studio.</p>
+  </header>
 
-  <!-- FILTROS -->
-  <section class="galeria-filtros">
-    <button
-      *ngFor="let cat of categorias"
-      class="filtro-btn"
-      [class.activo]="categoriaActiva === cat"
-      (click)="setCategoria(cat)">
-      {{ cat | titlecase }}
+  <section class="filtros-container">
+    <button 
+      *ngFor="let cat of categorias" 
+      class="btn-filtro" 
+      [class.activo]="filtroActivo() === cat"
+      (click)="cambiarFiltro(cat)">
+      {{ cat }}
     </button>
   </section>
 
-  <!-- GRID -->
-  <section class="galeria-grid">
-    <div
+  <section class="mosaico-masonry">
+    
+    <div 
+      *ngFor="let img of imagenesFiltradas()" 
       class="galeria-item"
-      *ngFor="let foto of fotosFiltradas"
-      (click)="abrirFoto(foto)">
+      (click)="abrirLightbox(img)">
       
-      <img [src]="foto.url" [alt]="foto.titulo" loading="lazy" />
-
-      <div class="galeria-item__overlay">
-        <span class="galeria-item__titulo">{{ foto.titulo }}</span>
-        <span class="galeria-item__cat">{{ foto.categoria }}</span>
+      <img [src]="img.url" [alt]="img.titulo" loading="lazy">
+      
+      <div class="overlay">
+        <span class="categoria-tag">{{ img.categoria }}</span>
+        <h3>{{ img.titulo }}</h3>
+        <i class="bi bi-arrows-fullscreen icono-expandir"></i>
       </div>
 
     </div>
+
   </section>
+
+  <div *ngIf="imagenesFiltradas().length === 0" class="mensaje-vacio">
+    <p>Pronto subiremos más trabajos de esta categoría.</p>
+  </div>
 
 </main>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" *ngIf="fotoAmpliada" (click)="cerrarFoto()">
-  <button class="lightbox__cerrar" (click)="cerrarFoto()">✕</button>
-  <img 
-    [src]="fotoAmpliada.url" 
-    [alt]="fotoAmpliada.titulo" 
-    (click)="$event.stopPropagation()" 
-  />
-  <p class="lightbox__titulo">{{ fotoAmpliada.titulo }}</p>
+<div class="lightbox" *ngIf="imagenSeleccionada()" (click)="cerrarLightbox()">
+  <button class="btn-cerrar-lightbox" (click)="cerrarLightbox()">×</button>
+  
+  <div class="lightbox-content" (click)="$event.stopPropagation()">
+    <img [src]="imagenSeleccionada()?.url" [alt]="imagenSeleccionada()?.titulo">
+    <div class="lightbox-info">
+      <h2>{{ imagenSeleccionada()?.titulo }}</h2>
+      <span class="badge">{{ imagenSeleccionada()?.categoria }}</span>
+    </div>
+  </div>
 </div>

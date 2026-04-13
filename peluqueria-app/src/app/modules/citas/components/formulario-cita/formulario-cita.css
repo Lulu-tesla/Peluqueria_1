@@ -1,0 +1,224 @@
+.reserva-wrapper {
+  max-width: 600px;
+  margin: 100px auto 3rem;
+  padding: 2rem;
+  background-color: var(--color-superficie);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--color-texto);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.reserva-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.reserva-header h1 {
+  color: var(--color-gold);
+  margin-bottom: 0.5rem;
+}
+
+.reserva-header p {
+  color: var(--color-texto-suave);
+}
+
+/* Stepper (Pasos) */
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 1rem;
+}
+
+.step {
+  color: var(--color-texto-suave);
+  font-weight: 500;
+  font-size: 0.9rem;
+  opacity: 0.5;
+  transition: all 0.3s;
+}
+
+.step.active {
+  color: var(--color-gold);
+  opacity: 1;
+  font-weight: bold;
+}
+
+/* Contenedor de Pasos */
+.paso-contenedor h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-texto);
+}
+
+/* Paso 1: Tarjetas de Radio */
+.grid-servicios {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.card-servicio-radio {
+  cursor: pointer;
+}
+
+.card-servicio-radio input[type="radio"] {
+  display: none; /* Ocultamos el circulito feo nativo */
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: var(--color-fondo);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.card-servicio-radio input[type="radio"]:checked + .card-content {
+  border-color: var(--color-gold);
+  background-color: rgba(201, 168, 76, 0.05);
+  box-shadow: 0 0 10px rgba(201, 168, 76, 0.2);
+}
+
+.card-content .nombre {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.card-content .detalles {
+  color: var(--color-texto-suave);
+  font-size: 0.9rem;
+}
+
+/* Paso 2: Inputs y Horas */
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  color: var(--color-texto-suave);
+}
+
+.input-dark {
+  background-color: var(--color-fondo);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--color-texto);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-family: inherit;
+  outline: none;
+}
+
+.input-dark:focus {
+  border-color: var(--color-gold);
+}
+
+.grid-horas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.btn-hora {
+  background-color: var(--color-fondo);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--color-texto);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-hora:hover {
+  border-color: var(--color-gold);
+}
+
+.btn-hora.hora-activa {
+  background-color: var(--color-gold);
+  color: var(--color-fondo);
+  border-color: var(--color-gold);
+  font-weight: bold;
+}
+
+/* Paso 3: Resumen */
+.resumen-card {
+  background-color: var(--color-fondo);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
+.resumen-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  border-bottom: 1px dashed rgba(255,255,255,0.1);
+  padding-bottom: 0.5rem;
+}
+
+.resumen-item .label {
+  color: var(--color-texto-suave);
+}
+
+.resumen-item .valor {
+  font-weight: bold;
+}
+
+.resumen-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.resumen-total .precio-total {
+  color: var(--color-gold);
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+/* Botones de acción general */
+.acciones-paso {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.acciones-paso.dobles {
+  justify-content: space-between;
+}
+
+.btn-primary, .btn-gold-solid {
+  background-color: var(--color-gold);
+  color: var(--color-fondo);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-primary:disabled, .btn-gold-solid:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--color-texto-suave);
+  color: var(--color-texto-suave);
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+}

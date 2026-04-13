@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
-
+import { Navbar } from './modules/home/components/navbar/navbar';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,],
-  template: `<router-outlet></router-outlet>`,
+  imports: [RouterOutlet, Navbar],
+  templateUrl: './app.html', /* ✅ Corregido: Ahora sí lee tu archivo HTML */
   styleUrl: './app.css'
 })
 export class App {

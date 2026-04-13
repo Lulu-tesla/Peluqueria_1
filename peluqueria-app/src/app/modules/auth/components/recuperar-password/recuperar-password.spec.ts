@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RecuperarPasswordComponent } from './recuperar-password'; // ✅ Corregido
 
-import { RecuperarPassword } from './recuperar-password';
-
-describe('RecuperarPassword', () => {
-  let component: RecuperarPassword;
-  let fixture: ComponentFixture<RecuperarPassword>;
+describe('RecuperarPasswordComponent', () => { // ✅ Corregido
+  let component: RecuperarPasswordComponent; // ✅ Corregido
+  let fixture: ComponentFixture<RecuperarPasswordComponent>; // ✅ Corregido
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RecuperarPassword],
+      imports: [RecuperarPasswordComponent], // ✅ Corregido
     }).compileComponents();
 
-    fixture = TestBed.createComponent(RecuperarPassword);
+    fixture = TestBed.createComponent(RecuperarPasswordComponent); // ✅ Corregido
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
