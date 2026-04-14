@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens; // ✅ Importante para seguridad con Angular
+use Laravel\Sanctum\HasApiTokens; // ✅ Necesario para generar tokens
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * Atributos que se pueden llenar (Mass assignment)
-     * Deben coincidir con los nombres que envías desde Angular.
+     * Atributos que se pueden llenar masivamente.
      */
     protected $fillable = [
         'nombre',
@@ -25,7 +24,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Atributos que nunca se enviarán en una respuesta JSON (Seguridad)
+     * Atributos que se ocultan en las respuestas JSON (Seguridad).
      */
     protected $hidden = [
         'password',
@@ -33,13 +32,13 @@ class User extends Authenticatable
     ];
 
     /**
-     * Casting de tipos de datos
+     * Conversión de tipos de datos automáticos.
      */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed', // Laravel encripta automáticamente al guardar
+            'password' => 'hashed', // Asegura que la contraseña siempre se maneje como hash
         ];
     }
 }
