@@ -1,10 +1,14 @@
 import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http'; // Para hacer peticiones al servidor
+import { Observable, tap } from 'rxjs'; // Para manejar flujos de datos
 
-// Definimos una interfaz básica para manejar la sesión en el frontend
+// Definimos la interfaz para que coincida con los campos de tu base de datos en Laravel
 export interface UsuarioAuth {
-  id: string;
+  id: number;
   nombre: string;
+  apellido: string;
   email: string;
+  telefono?: string;
   rol: 'admin' | 'cliente';
 }
 
@@ -12,50 +16,57 @@ export interface UsuarioAuth {
   providedIn: 'root',
 })
 export class AuthService {
-  // Signal reactivo para el usuario. Accesible desde cualquier componente.
+  // La URL de tu servidor Laravel (asegurate que php artisan serve esté corriendo)
+  private apiUrl = 'http://127.0.0.1:8000/api';
+  
+  // Signal para mantener al usuario logueado en toda la app
   currentUser = signal<UsuarioAuth | null>(null);
 
-  constructor() {
-    // Al cargar la app, comprobamos si el usuario ya tenía sesión iniciada en el navegador
+  constructor(private http: HttpClient) {
+    // Al iniciar, recuperamos la sesión guardada en el navegador si existe
     const session = localStorage.getItem('usuario_sesion');
     if (session) {
       this.currentUser.set(JSON.parse(session));
     }
   }
 
-  // Simulación de petición al servidor (Login)
-  async login(email: string, password: string): Promise<UsuarioAuth> {
-    return new Promise((resolve, reject) => {
-      // Simulamos 1 segundo de retraso de red
-      setTimeout(() => {
-        // Datos de prueba (hardcodeados por ahora)
-        if (email === 'admin@aurastudio.com' && password === 'admin1234') {
-          const adminUser: UsuarioAuth = { id: '1', nombre: 'Administrador', email, rol: 'admin' };
-          this.guardarSesion(adminUser);
-          resolve(adminUser);
-        } else if (email === 'cliente@correo.com' && password === 'cliente123') {
-          const clienteUser: UsuarioAuth = { id: '2', nombre: 'Lucía M.', email, rol: 'cliente' };
-          this.guardarSesion(clienteUser);
-          resolve(clienteUser);
-        } else {
-          reject(new Error('Correo o contraseña incorrectos'));
-        }
-      }, 1000); 
-    });
+  /**
+   * REGISTRO REAL: Envía los datos del formulario a Laravel
+   */
+  registrar(datos: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/registrar`, datos);
   }
 
+  /**
+   * LOGIN REAL: Envía email/pass y recibe el Token de Sanctum
+   */
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
+      tap(res => {
+        if (res.status === 'success') {
+          // Guardamos el token para futuras peticiones
+          localStorage.setItem('aura_token', res.access_token);
+          // Guardamos los datos del usuario en el Signal y LocalStorage
+          this.guardarSesion(res.user);
+        }
+      })
+    );
+  }
+
+  /**
+   * LOGOUT: Limpia todo el rastro de la sesión
+   */
   logout() {
     localStorage.removeItem('usuario_sesion');
-    this.currentUser.set(null); // Limpiamos el estado
+    localStorage.removeItem('aura_token');
+    this.currentUser.set(null);
   }
 
-  // Guarda en localStorage para que no se cierre sesión al recargar la página (F5)
   private guardarSesion(usuario: UsuarioAuth) {
     localStorage.setItem('usuario_sesion', JSON.stringify(usuario));
     this.currentUser.set(usuario);
   }
 
-  // Getter útil para usar en los Guards más adelante
   get isLogged(): boolean {
     return this.currentUser() !== null;
   }
