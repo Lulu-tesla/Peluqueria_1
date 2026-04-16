@@ -1,46 +1,69 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule} from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth';
-
-// Interfaz temporal para la vista (idealmente usarías la de core/models/cita.ts)
-interface CitaPendiente {
-  id: string;
-  cliente: string;
-  servicio: string;
-  hora: Date;
-  estado: 'pendiente' | 'confirmada' | 'completada';
-  precio: number;
-}
+import { CitaService } from '../../../../core/services/cita';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, DatePipe],
+  imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
-export class Dashboard {
+export class Dashboard implements OnInit {
   authService = inject(AuthService);
+  private citaService = inject(CitaService);
 
-  // Datos simulados para armar la UI
+  // Inicializamos con valores en 0
   metricas = {
-    citasHoy: 5,
-    ingresosHoy: 450, // En tu moneda local (Bs, $, etc.)
-    nuevosClientes: 2
+    citasHoy: 0,
+    ingresosHoy: 0,
+    nuevosClientes: 0
   };
 
-  citasDeHoy: CitaPendiente[] = [
-    { id: '1', cliente: 'María López', servicio: 'Balayage + Corte', hora: new Date(new Date().setHours(10, 0, 0)), estado: 'confirmada', precio: 120 },
-    { id: '2', cliente: 'Andrea Silva', servicio: 'Manicura Semipermanente', hora: new Date(new Date().setHours(11, 30, 0)), estado: 'pendiente', precio: 30 },
-    { id: '3', cliente: 'Lucía M.', servicio: 'Tratamiento Capilar', hora: new Date(new Date().setHours(14, 0, 0)), estado: 'pendiente', precio: 50 },
-  ];
+  citasDeHoy: any[] = [];
+  cargando = true;
+
+  ngOnInit(): void {
+    this.cargarDatosReales();
+  }
+
+  cargarDatosReales() {
+    this.citaService.getAllCitas().subscribe({
+      next: (citas) => {
+        const hoy = new Date().toISOString().split('T')[0];
+
+        // 1. Filtramos las citas de hoy
+        this.citasDeHoy = citas.filter(c => c.fecha === hoy);
+
+        // 2. Calculamos las métricas dinámicamente
+        this.metricas.citasHoy = this.citasDeHoy.length;
+        
+        // Sumamos los precios de los servicios de hoy
+        this.metricas.ingresosHoy = this.citasDeHoy.reduce(
+          (total, c) => total + parseFloat(c.servicio?.precio || 0), 0
+        );
+
+        // Clientes únicos que tienen cita hoy
+        const clientesUnicos = new Set(this.citasDeHoy.map(c => c.user_id));
+        this.metricas.nuevosClientes = clientesUnicos.size;
+
+        this.cargando = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar dashboard:', err);
+        this.cargando = false;
+      }
+    });
+  }
 
   cambiarEstado(citaId: string, nuevoEstado: 'pendiente' | 'confirmada' | 'completada') {
+    // Aquí actualizamos visualmente
     const cita = this.citasDeHoy.find(c => c.id === citaId);
     if (cita) {
       cita.estado = nuevoEstado;
-      // Aquí a futuro llamarías a tu CitaService para actualizar en la base de datos
+      // TODO: Implementar CitaService.updateEstado(citaId, nuevoEstado) en el futuro
     }
   }
 }

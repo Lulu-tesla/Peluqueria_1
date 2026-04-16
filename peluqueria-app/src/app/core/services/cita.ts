@@ -19,4 +19,8 @@ export class CitaService {
     // Le enviamos a Laravel el ID del usuario en la URL para que nos filtre los datos
     return this.http.get<any[]>(`${this.apiUrl}?user_id=${userId}`);
   }
+  // 🚀 NUEVA: Pedir TODAS las citas de la base de datos (Para el Admin)
+  getAllCitas(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
 }

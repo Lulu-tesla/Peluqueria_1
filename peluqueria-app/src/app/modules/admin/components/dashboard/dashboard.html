@@ -21,7 +21,7 @@
     <div class="stat-card">
       <div class="stat-icon"><i class="bi bi-cash-stack"></i></div>
       <div class="stat-info">
-        <h3>${{ metricas.ingresosHoy }}</h3>
+        <h3>Bs. {{ metricas.ingresosHoy }}</h3>
         <p>Ingresos Estimados</p>
       </div>
     </div>
@@ -29,7 +29,7 @@
       <div class="stat-icon"><i class="bi bi-people"></i></div>
       <div class="stat-info">
         <h3>{{ metricas.nuevosClientes }}</h3>
-        <p>Clientes Nuevos</p>
+        <p>Clientes en Agenda</p>
       </div>
     </div>
   </section>
@@ -42,7 +42,9 @@
       </div>
       
       <div class="table-responsive">
-        <table class="citas-table">
+        <p *ngIf="cargando" style="padding: 20px; color: #d4af37;">Sincronizando con base de datos...</p>
+
+        <table class="citas-table" *ngIf="!cargando">
           <thead>
             <tr>
               <th>Hora</th>
@@ -54,14 +56,17 @@
           </thead>
           <tbody>
             <tr *ngFor="let cita of citasDeHoy">
-              <td><strong>{{ cita.hora | date:'HH:mm' }}</strong></td>
-              <td>{{ cita.cliente }}</td>
-              <td>{{ cita.servicio }}</td>
+              <td><strong>{{ cita.hora }}</strong></td>
+              <td>
+                {{ cita.usuario?.nombre }} {{ cita.usuario?.apellido }}
+                <br><small style="color: #888;">{{ cita.usuario?.telefono }}</small>
+              </td>
+              <td>{{ cita.servicio?.nombre }}</td>
               <td>
                 <span class="badge" 
                       [ngClass]="{'badge-pendiente': cita.estado === 'pendiente', 
-                                 'badge-confirmada': cita.estado === 'confirmada',
-                                 'badge-completada': cita.estado === 'completada'}">
+                                  'badge-confirmada': cita.estado === 'confirmada',
+                                  'badge-completada': cita.estado === 'completada'}">
                   {{ cita.estado | titlecase }}
                 </span>
               </td>

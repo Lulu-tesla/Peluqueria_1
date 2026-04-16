@@ -43,7 +43,17 @@ export class LoginComponent {
       next: (res: any) => {
         this.cargando = false;
         console.log('Login exitoso', res);
-        this.router.navigate(['/cliente']);
+        
+        // ✨ LÓGICA INTELIGENTE DE ROLES
+        const rolDeUsuario = res.user?.rol; // Extraemos el rol que viene desde Laravel
+
+        if (rolDeUsuario === 'admin') {
+          // Si el usuario es administrador, lo mandamos al Dashboard
+          this.router.navigate(['/admin']);
+        } else {
+          // Si es cualquier otro (cliente), lo mandamos a su perfil
+          this.router.navigate(['/cliente']);
+        }
       },
       error: (err: any) => {
         this.cargando = false;
