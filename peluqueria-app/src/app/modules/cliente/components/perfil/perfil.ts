@@ -31,19 +31,19 @@ export class Perfil implements OnInit {
 
     // Le pedimos a Laravel las citas de ESTE usuario
     this.citaService.getMisCitas(user.id).subscribe({
-      next: (citas) => {
+      next: (citas: any) => {
         // La fecha de hoy en formato 'YYYY-MM-DD' para comparar
         const hoy = new Date().toISOString().split('T')[0];
         
         // 1. Filtramos las citas "Próximas" (Fecha mayor o igual a hoy)
-        this.proximasCitas = citas.filter(cita => cita.fecha >= hoy);
+        this.proximasCitas = citas.filter((cita: any) => cita.fecha >= hoy);
         
         // 2. Filtramos el "Historial" (Citas pasadas)
-        this.historialCitas = citas.filter(cita => cita.fecha < hoy);
+        this.historialCitas = citas.filter((cita: any) => cita.fecha < hoy);
         
         this.cargando = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error al cargar perfil:', err);
         this.cargando = false;
       }

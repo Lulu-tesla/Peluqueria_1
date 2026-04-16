@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http'; // 👈 Importamos HttpHeaders
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,18 +9,32 @@ export class CitaService {
   private http = inject(HttpClient);
   private apiUrl = 'http://127.0.0.1:8000/api/citas'; 
 
-  // Función que ya tenías para guardar
+  // Función para obtener el token del navegador
+  private getHeaders() {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}` // 👈 Aquí va la llave maestra
+    });
+  }
+
   crearCita(datosCita: any): Observable<any> {
     return this.http.post(this.apiUrl, datosCita);
   }
 
-  // 🚀 NUEVA FUNCIÓN: Pedir las citas de un usuario específico
   getMisCitas(userId: number): Observable<any[]> {
-    // Le enviamos a Laravel el ID del usuario en la URL para que nos filtre los datos
     return this.http.get<any[]>(`${this.apiUrl}?user_id=${userId}`);
   }
-  // 🚀 NUEVA: Pedir TODAS las citas de la base de datos (Para el Admin)
+
   getAllCitas(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
+  }
+
+  // 🚀 ACTUALIZADO: Ahora envía el Token en los headers
+  actualizarEstado(citaId: number, nuevoEstado: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.patch(`${this.apiUrl}/${citaId}/estado`, 
+      { estado: nuevoEstado }, 
+      { headers } // 👈 ¡Laravel ahora verá la llave!
+    );
   }
 }

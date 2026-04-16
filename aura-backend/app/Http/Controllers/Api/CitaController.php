@@ -8,22 +8,17 @@ use Illuminate\Http\Request;
 
 class CitaController extends Controller
 {
-    // Para ver todas las citas o filtrar por usuario específico
     public function index(Request $request)
     {
-        // Preparamos la consulta incluyendo las relaciones
         $query = Cita::with(['usuario', 'servicio']);
 
-        // Si Angular envía el ID del usuario, filtramos la lista
         if ($request->has('user_id')) {
             $query->where('user_id', $request->user_id);
         }
 
-        // Devolvemos los datos ordenados de la cita más reciente a la más antigua
         return response()->json($query->orderBy('fecha', 'desc')->get());
     }
 
-    // Para que Angular guarde una cita (Mantenemos tu código exacto)
     public function store(Request $request)
     {
         $request->validate([
@@ -39,5 +34,22 @@ class CitaController extends Controller
             'message' => '¡Cita agendada con éxito!',
             'cita' => $cita
         ], 210);
+    }
+
+    // 🚀 NUEVA FUNCIÓN: Actualiza solo el estado de la cita
+    public function actualizarEstado(Request $request, $id)
+    {
+        $request->validate([
+            'estado' => 'required|in:pendiente,confirmada,completada'
+        ]);
+
+        $cita = Cita::findOrFail($id);
+        $cita->update(['estado' => $request->estado]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Estado actualizado correctamente',
+            'cita' => $cita
+        ]);
     }
 }

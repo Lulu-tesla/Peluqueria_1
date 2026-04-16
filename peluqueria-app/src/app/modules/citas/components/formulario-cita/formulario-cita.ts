@@ -110,14 +110,14 @@ ngOnInit() {
 
     // Llamamos al Backend
     this.citaService.crearCita(datosParaLaravel).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         console.log('Cita guardada en MySQL:', res);
         this.cargando.set(false);
         // 🚨 SI VES ESTE MENSAJE, EL CÓDIGO NUEVO FUNCIONÓ PERFECTO
         alert('¡Cita GUARDADA EN LA BASE DE DATOS con éxito!');
         this.router.navigate(['/']); // Redirigimos al inicio
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error al agendar:', err);
         this.cargando.set(false);
         alert('Hubo un error al guardar tu cita. Revisa la consola F12.');

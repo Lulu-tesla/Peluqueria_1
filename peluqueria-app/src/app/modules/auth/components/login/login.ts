@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core'; // 👈 Añadimos OnInit
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -11,7 +11,7 @@ import { AuthService } from '../../../../core/services/auth';
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit { // 👈 Implementamos la interfaz
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -26,6 +26,19 @@ export class LoginComponent {
   errorMsg = '';
   // Tu HTML necesita esta variable para el ojito de la contraseña
   mostrarPassword = false;
+
+  // 🛡️ Al cargar el componente, verificamos si ya existe una sesión activa
+  ngOnInit() {
+    if (this.authService.isLogged) {
+      const user = this.authService.currentUser();
+      // Si ya está logueado, lo sacamos de aquí según su rol
+      if (user?.rol === 'admin') {
+        this.router.navigate(['/admin']);
+      } else {
+        this.router.navigate(['/cliente']);
+      }
+    }
+  }
 
   // Tu HTML usa "f['email']" para buscar errores, esto lo habilita:
   get f() {
@@ -45,13 +58,11 @@ export class LoginComponent {
         console.log('Login exitoso', res);
         
         // ✨ LÓGICA INTELIGENTE DE ROLES
-        const rolDeUsuario = res.user?.rol; // Extraemos el rol que viene desde Laravel
+        const rolDeUsuario = res.user?.rol; 
 
         if (rolDeUsuario === 'admin') {
-          // Si el usuario es administrador, lo mandamos al Dashboard
           this.router.navigate(['/admin']);
         } else {
-          // Si es cualquier otro (cliente), lo mandamos a su perfil
           this.router.navigate(['/cliente']);
         }
       },

@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth';
 import { CitaService } from '../../../../core/services/cita';
@@ -15,7 +15,6 @@ export class Dashboard implements OnInit {
   authService = inject(AuthService);
   private citaService = inject(CitaService);
 
-  // Inicializamos con valores en 0
   metricas = {
     citasHoy: 0,
     ingresosHoy: 0,
@@ -33,19 +32,18 @@ export class Dashboard implements OnInit {
     this.citaService.getAllCitas().subscribe({
       next: (citas) => {
         const hoy = new Date().toISOString().split('T')[0];
-
+        
         // 1. Filtramos las citas de hoy
         this.citasDeHoy = citas.filter(c => c.fecha === hoy);
 
         // 2. Calculamos las métricas dinámicamente
-        this.metricas.citasHoy = this.citasDeHoy.length;
+        // Si quieres que el contador baje, puedes filtrar solo las que NO están 'completada'
+        this.metricas.citasHoy = this.citasDeHoy.filter(c => c.estado !== 'completada').length;
         
-        // Sumamos los precios de los servicios de hoy
         this.metricas.ingresosHoy = this.citasDeHoy.reduce(
           (total, c) => total + parseFloat(c.servicio?.precio || 0), 0
         );
 
-        // Clientes únicos que tienen cita hoy
         const clientesUnicos = new Set(this.citasDeHoy.map(c => c.user_id));
         this.metricas.nuevosClientes = clientesUnicos.size;
 
@@ -58,12 +56,19 @@ export class Dashboard implements OnInit {
     });
   }
 
-  cambiarEstado(citaId: string, nuevoEstado: 'pendiente' | 'confirmada' | 'completada') {
-    // Aquí actualizamos visualmente
-    const cita = this.citasDeHoy.find(c => c.id === citaId);
-    if (cita) {
-      cita.estado = nuevoEstado;
-      // TODO: Implementar CitaService.updateEstado(citaId, nuevoEstado) en el futuro
-    }
+  cambiarEstado(citaId: number, nuevoEstado: 'pendiente' | 'confirmada' | 'completada') {
+    this.citaService.actualizarEstado(citaId, nuevoEstado).subscribe({
+      next: (res) => {
+        console.log('Estado actualizado en DB:', res);
+        
+        // 🔥 LA MAGIA: Recargamos los datos reales para que las métricas 
+        // y la tabla se actualicen inmediatamente sin refrescar la página
+        this.cargarDatosReales(); 
+      },
+      error: (err) => {
+        console.error('Error al actualizar estado:', err);
+        alert('No se pudo actualizar el estado en el servidor.');
+      }
+    });
   }
 }
