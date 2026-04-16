@@ -1,1 +1,22 @@
-<p>lista-servicios works!</p>
+<div class="servicios-container">
+    <header class="servicios-header">
+        <h2>Nuestros Servicios Premium</h2>
+        <p>Selecciona el tratamiento ideal para resaltar tu belleza.</p>
+    </header>
+
+    <div *ngIf="cargando()" class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando catálogo...</p>
+    </div>
+
+    <div *ngIf="!cargando()" class="servicios-grid">
+        <app-card-servicio 
+            *ngFor="let s of servicios()" 
+            [servicio]="s">
+        </app-card-servicio>
+    </div>
+
+    <div *ngIf="!cargando() && servicios().length === 0" class="empty-state">
+        <p>No hay servicios disponibles en este momento.</p>
+    </div>
+</div>

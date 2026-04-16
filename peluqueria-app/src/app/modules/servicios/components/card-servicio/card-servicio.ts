@@ -1,9 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Servicio } from '../../../../core/models/servicio';
 
 @Component({
   selector: 'app-card-servicio',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './card-servicio.html',
-  styleUrl: './card-servicio.css',
+  styleUrls: ['./card-servicio.css']
 })
-export class CardServicio {}
+export class CardServicioComponent { // 👈 MIRA AQUÍ: Debe decir exactamente así
+  @Input() servicio!: Servicio; // Recibe el servicio desde el padre
+}

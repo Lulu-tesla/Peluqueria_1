@@ -1,0 +1,94 @@
+/* Contenedor principal con espaciado elegante */
+.servicios-container {
+    padding: 4rem 2rem;
+    max-width: 1300px;
+    margin: 0 auto;
+    background-color: #fdfdfd; /* Fondo casi blanco para resaltar las cards */
+}
+
+/* Encabezado con estilo editorial */
+.servicios-header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.servicios-header h2 {
+    font-size: 2.8rem;
+    color: #1a1a1a;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.servicios-header p {
+    color: #666;
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Grid responsivo: se adapta a móvil, tablet y PC */
+.servicios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 3rem;
+    padding: 1rem;
+}
+
+/* Animación de entrada para las cards */
+.servicios-grid app-card-servicio {
+    display: block;
+    animation: fadeInUp 0.6s ease backwards;
+}
+
+/* Efecto de carga (Spinner) elegante */
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10rem 0;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(0,0,0,0.1);
+    border-radius: 50%;
+    border-top-color: #c5a059; /* Color dorado premium */
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 1.5rem;
+}
+
+/* Estados vacíos */
+.empty-state {
+    text-align: center;
+    padding: 5rem;
+    border: 2px dashed #ddd;
+    border-radius: 15px;
+    color: #888;
+}
+
+/* Animaciones */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Media Queries para móviles */
+@media (max-width: 768px) {
+    .servicios-header h2 { font-size: 2.2rem; }
+    .servicios-grid { gap: 1.5rem; }
+}

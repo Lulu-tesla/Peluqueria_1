@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 import { Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+// 1. Añadimos el servicio que se comunica con Laravel
+import { AuthService } from '../../../../core/services/auth'; 
 
 @Component({
   selector: 'app-registro',
@@ -18,7 +20,12 @@ export class RegistroComponent {
   mostrarPassword = false;
   mostrarConfirm = false;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  // 2. Inyectamos AuthService aquí en el constructor
+  constructor(
+    private fb: FormBuilder, 
+    private router: Router,
+    private authService: AuthService 
+  ) {
     this.form = this.fb.group({
       nombre:            ['', [Validators.required, Validators.minLength(2)]],
       apellido:          ['', [Validators.required, Validators.minLength(2)]],
@@ -38,20 +45,34 @@ export class RegistroComponent {
 
   get f() { return this.form.controls; }
 
-  async onSubmit() {
+  // 3. Modificamos onSubmit para enviar los datos reales
+  onSubmit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
     this.cargando = true;
     this.errorMsg = '';
-    try {
-      console.log('Registro:', this.form.value);
-      this.router.navigate(['/login']);
-    } catch (err: any) {
-      this.errorMsg = 'Error al registrarse. Intenta de nuevo.';
-    } finally {
-      this.cargando = false;
-    }
+    
+    // Separamos los datos que Laravel SÍ necesita de los que no (terminos y confirmar)
+    const { confirmarPassword, terminos, ...datosParaLaravel } = this.form.value;
+
+    // Llamamos al Backend
+    this.authService.registrar(datosParaLaravel).subscribe({
+      next: (res) => {
+        console.log('Registro exitoso en la BD:', res);
+        alert('Cuenta creada con éxito. Ahora puedes iniciar sesión.');
+        this.router.navigate(['/login']); // Recién aquí mandamos al usuario al login
+      },
+      error: (err) => {
+        console.error('Error de Laravel:', err);
+        // Mostrar el error real que manda Laravel (ej. el correo ya existe)
+        this.errorMsg = err.error?.message || err.error?.errors?.email?.[0] || 'Error al registrarse. Intenta de nuevo.';
+        this.cargando = false;
+      },
+      complete: () => {
+        this.cargando = false;
+      }
+    });
   }
 }
