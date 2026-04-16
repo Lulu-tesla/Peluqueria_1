@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api; // 👈 Actualizado
 
+use App\Http\Controllers\Controller; // 👈 Necesario porque Controller.php está una carpeta arriba
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +15,6 @@ class AuthController extends Controller
      */
     public function registrar(Request $request)
     {
-        // 1. Validar los datos que vienen de Angular
         $validador = Validator::make($request->all(), [
             'nombre'   => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
@@ -29,13 +29,12 @@ class AuthController extends Controller
             ], 400);
         }
 
-        // 2. Crear el usuario en la base de datos (Rol cliente por defecto)
         $user = User::create([
             'nombre'   => $request->nombre,
             'apellido' => $request->apellido,
             'email'    => $request->email,
             'telefono' => $request->telefono,
-            'password' => Hash::make($request->password), // Encriptación segura
+            'password' => Hash::make($request->password), 
             'rol'      => 'cliente', 
         ]);
 
@@ -51,16 +50,13 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        // 1. Validar entrada
         $request->validate([
             'email'    => 'required|email',
             'password' => 'required',
         ]);
 
-        // 2. Buscar usuario
         $user = User::where('email', $request->email)->first();
 
-        // 3. Verificar existencia y contraseña
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status'  => 'error',
@@ -68,7 +64,6 @@ class AuthController extends Controller
             ], 401);
         }
 
-        // 4. Generar Token de acceso para Angular
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
@@ -84,7 +79,6 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        // El usuario debe estar autenticado para borrar su token
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([

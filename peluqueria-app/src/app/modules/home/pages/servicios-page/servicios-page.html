@@ -17,19 +17,31 @@
     </button>
   </section>
 
-  <section class="servicios-grid">
+  <div *ngIf="cargando" style="text-align: center; margin: 2rem 0; color: #d4af37;">
+    Cargando servicios premium...
+  </div>
+
+  <section class="servicios-grid" *ngIf="!cargando">
     <div class="servicio-card" *ngFor="let s of serviciosFiltrados">
+      
       <div class="servicio-card__icono">{{ s.icono }}</div>
+      
       <div class="servicio-card__body">
         <h3 class="servicio-card__nombre">{{ s.nombre }}</h3>
         <p class="servicio-card__desc">{{ s.descripcion }}</p>
+        
         <div class="servicio-card__meta">
-          <span class="servicio-card__duracion">⏱ {{ s.duracion }}</span>
-          <span class="servicio-card__precio">{{ s.precio }}</span>
+          <span class="servicio-card__duracion">⏱ {{ s.duracion }} min</span>
+          <span class="servicio-card__precio">Bs. {{ s.precio }}</span>
         </div>
       </div>
+      
       <a [routerLink]="['/reservar', s.id]" class="servicio-card__btn">Reservar</a>
     </div>
+  </section>
+
+  <section *ngIf="!cargando && serviciosFiltrados.length === 0" style="text-align: center; margin: 2rem 0;">
+    <p>Próximamente añadiremos servicios en esta categoría.</p>
   </section>
 
   <section class="servicios-cta">

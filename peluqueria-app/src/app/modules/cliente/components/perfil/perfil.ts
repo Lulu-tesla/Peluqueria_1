@@ -1,16 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth';
-
-interface CitaCliente {
-  id: string;
-  servicio: string;
-  fecha: Date;
-  precio: number;
-  estado: 'proxima' | 'finalizada' | 'cancelada';
-  especialista: string;
-}
+import { CitaService } from '../../../../core/services/cita'; // 👈 Importamos nuestro servicio
 
 @Component({
   selector: 'app-perfil',
@@ -19,41 +11,56 @@ interface CitaCliente {
   templateUrl: './perfil.html',
   styleUrls: ['./perfil.css']
 })
-export class Perfil {
+export class Perfil implements OnInit {
   authService = inject(AuthService);
+  private citaService = inject(CitaService);
 
-  // Datos de ejemplo para la interfaz
-  proximasCitas: CitaCliente[] = [
-    {
-      id: '101',
-      servicio: 'Corte y Estilizado',
-      fecha: new Date(2026, 3, 20, 15, 30),
-      precio: 45,
-      estado: 'proxima',
-      especialista: 'Carla V.'
-    }
-  ];
+  // Arreglos vacíos que se llenarán con los datos de Laravel
+  proximasCitas: any[] = [];
+  historialCitas: any[] = [];
+  
+  cargando = true;
 
-  historialCitas: CitaCliente[] = [
-    {
-      id: '95',
-      servicio: 'Balayage Premium',
-      fecha: new Date(2026, 1, 10, 10, 0),
-      precio: 150,
-      estado: 'finalizada',
-      especialista: 'Andrés S.'
-    },
-    {
-      id: '82',
-      servicio: 'Tratamiento Hidratante',
-      fecha: new Date(2025, 11, 15, 16, 0),
-      precio: 35,
-      estado: 'finalizada',
-      especialista: 'Carla V.'
-    }
-  ];
+  ngOnInit() {
+    this.cargarMisCitas();
+  }
+
+  cargarMisCitas() {
+    const user = this.authService.currentUser();
+    if (!user) return;
+
+    // Le pedimos a Laravel las citas de ESTE usuario
+    this.citaService.getMisCitas(user.id).subscribe({
+      next: (citas) => {
+        // La fecha de hoy en formato 'YYYY-MM-DD' para comparar
+        const hoy = new Date().toISOString().split('T')[0];
+        
+        // 1. Filtramos las citas "Próximas" (Fecha mayor o igual a hoy)
+        this.proximasCitas = citas.filter(cita => cita.fecha >= hoy);
+        
+        // 2. Filtramos el "Historial" (Citas pasadas)
+        this.historialCitas = citas.filter(cita => cita.fecha < hoy);
+        
+        this.cargando = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar perfil:', err);
+        this.cargando = false;
+      }
+    });
+  }
 
   get primerNombre() {
     return this.authService.currentUser()?.nombre.split(' ')[0] || 'Cliente';
+  }
+
+  // Extraemos el especialista de las notas (porque así lo guardamos en el Paso anterior)
+  // Ej: Si la nota dice "Especialista preferido: Carla V.", esta función saca solo "Carla V."
+  obtenerEspecialista(nota: string | null): string {
+    if (!nota) return 'Asignado en salón';
+    if (nota.includes('Especialista preferido:')) {
+      return nota.split('Especialista preferido: ')[1].trim();
+    }
+    return 'Asignado en salón';
   }
 }

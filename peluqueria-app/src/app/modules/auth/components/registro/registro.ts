@@ -59,12 +59,12 @@ export class RegistroComponent {
 
     // Llamamos al Backend
     this.authService.registrar(datosParaLaravel).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         console.log('Registro exitoso en la BD:', res);
         alert('Cuenta creada con éxito. Ahora puedes iniciar sesión.');
         this.router.navigate(['/login']); // Recién aquí mandamos al usuario al login
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error de Laravel:', err);
         // Mostrar el error real que manda Laravel (ej. el correo ya existe)
         this.errorMsg = err.error?.message || err.error?.errors?.email?.[0] || 'Error al registrarse. Intenta de nuevo.';

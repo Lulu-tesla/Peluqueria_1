@@ -18,16 +18,14 @@ export class BotonFlotanteComponent {
   /**
    * Lógica inteligente para el botón flotante de Reserva
    */
-  iniciarReservaGeneral() {
+iniciarReservaGeneral() {
     if (this.authService.isLogged) {
-      // Si está logueado, lo mandamos al formulario de citas.
-      // A diferencia de la card, aquí no sabemos qué servicio quiere aún, 
-      // así que va a la reserva general.
-      this.router.navigate(['/citas/reservar']); 
+      // Si está logueado, lo mandamos al catálogo que sí existe en tus rutas
+      this.router.navigate(['/servicios']); 
     } else {
-      // Si no, al Login, pero le avisamos por qué.
+      // Si no, al Login usando tu ruta exacta
       alert('Para agendar tu cita premium, por favor inicia sesión primero.');
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth/login']); 
     }
   }
 }

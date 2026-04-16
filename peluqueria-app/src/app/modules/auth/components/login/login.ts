@@ -1,78 +1,59 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
 export class LoginComponent {
-  form: FormGroup;
-  cargando = false;
-  errorMsg = '';
-  mostrarPassword = false;
-
-  // Inyección de servicios modernos con inject()
+  private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-  private fb = inject(FormBuilder);
 
-  constructor() {
-    // Inicializamos el formulario con validaciones básicas
-    this.form = this.fb.group({
-      email:    ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]]
-    });
+  // Tu HTML busca "form", no "loginForm"
+  form: FormGroup = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required]
+  });
+
+  cargando = false;
+  errorMsg = '';
+  // Tu HTML necesita esta variable para el ojito de la contraseña
+  mostrarPassword = false;
+
+  // Tu HTML usa "f['email']" para buscar errores, esto lo habilita:
+  get f() {
+    return this.form.controls;
   }
 
-  // Atajo para acceder fácilmente a los controles en el HTML
-  get f() { return this.form.controls; }
-
-  /**
-   * Método de envío del formulario
-   */
+  // Tu HTML llama a (ngSubmit)="onSubmit()"
   onSubmit() {
-    // 1. Validamos que el formulario sea correcto visualmente
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
+    if (this.form.invalid) return;
 
     this.cargando = true;
     this.errorMsg = '';
-    
-    // 2. Extraemos los valores
-    const { email, password } = this.form.value;
-    
-    // 3. Llamamos al servicio (ahora usando .subscribe porque es una petición HTTP real)
-    this.authService.login(email, password).subscribe({
-      next: (respuesta) => {
-        // 'respuesta' es el JSON que nos manda Laravel: { status, access_token, user }
-        console.log('Ingreso exitoso:', respuesta);
-        
-        const usuario = respuesta.user;
 
-        // 4. Redirección inteligente basada en el ROL de la base de datos
-        if (usuario.rol === 'admin') {
-          this.router.navigate(['/admin/dashboard']); // Ajusta a tu ruta real de admin
+    this.authService.login(this.form.value).subscribe({
+      next: (res: any) => {
+        this.cargando = false;
+        console.log('Login exitoso', res);
+        this.router.navigate(['/cliente']);
+      },
+      error: (err: any) => {
+        this.cargando = false;
+        console.error('Error de login', err);
+        
+        if (err.status === 401) {
+          this.errorMsg = 'Correo o contraseña incorrectos.';
         } else {
-          this.router.navigate(['/cliente/perfil']); // Ajusta a tu ruta real de cliente
+          this.errorMsg = 'Hubo un problema de conexión con el servidor.';
         }
-      },
-      error: (err) => {
-        // Atrapamos errores de credenciales (401) o de servidor
-        this.cargando = false;
-        console.error('Error en login:', err);
-        this.errorMsg = err.error?.message || 'Correo o contraseña incorrectos.';
-      },
-      complete: () => {
-        this.cargando = false;
       }
     });
   }

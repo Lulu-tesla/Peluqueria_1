@@ -3,7 +3,7 @@
   <header class="perfil-header">
     <div class="perfil-info-principal">
       <div class="avatar-grande">
-        {{ authService.currentUser()?.nombre?.charAt(0) }}
+        {{ authService.currentUser()?.nombre?.charAt(0) | uppercase }}
       </div>
       <div class="texto-header">
         <h1>¡Hola, {{ primerNombre }}!</h1>
@@ -19,21 +19,25 @@
     
     <main class="perfil-main">
       
-      <section class="seccion-citas">
+      <div *ngIf="cargando" style="text-align: center; margin: 2rem 0; color: #d4af37;">
+        <p>Cargando tu información...</p>
+      </div>
+
+      <section class="seccion-citas" *ngIf="!cargando">
         <h2 class="titulo-seccion">Tu próxima cita</h2>
         
         <div *ngFor="let cita of proximasCitas" class="card-cita-proxima">
           <div class="cita-fecha-box">
-            <span class="mes">{{ cita.fecha | date:'MMM' | uppercase }}</span>
-            <span class="dia">{{ cita.fecha | date:'dd' }}</span>
+            <span class="mes">{{ cita.fecha + 'T00:00:00' | date:'MMM' | uppercase }}</span>
+            <span class="dia">{{ cita.fecha + 'T00:00:00' | date:'dd' }}</span>
           </div>
           <div class="cita-detalles">
-            <h3>{{ cita.servicio }}</h3>
-            <p><i class="bi bi-clock"></i> {{ cita.fecha | date:'HH:mm' }} hs</p>
-            <p><i class="bi bi-person"></i> Con {{ cita.especialista }}</p>
+            <h3>{{ cita.servicio?.nombre || 'Servicio Premium' }}</h3>
+            <p><i class="bi bi-clock"></i> {{ cita.hora }} hs</p>
+            <p><i class="bi bi-person"></i> Con {{ obtenerEspecialista(cita.notas) }}</p>
           </div>
           <div class="cita-monto">
-            <span class="precio">${{ cita.precio }}</span>
+            <span class="precio">Bs. {{ cita.servicio?.precio || 0 }}</span>
             <button class="btn-text">Gestionar</button>
           </div>
         </div>
@@ -44,7 +48,7 @@
         </div>
       </section>
 
-      <section class="seccion-historial">
+      <section class="seccion-historial" *ngIf="!cargando && historialCitas.length > 0">
         <h2 class="titulo-seccion">Historial reciente</h2>
         <div class="tabla-historial-wrapper">
           <table class="tabla-historial">
@@ -58,15 +62,20 @@
             </thead>
             <tbody>
               <tr *ngFor="let cita of historialCitas">
-                <td>{{ cita.servicio }}</td>
-                <td>{{ cita.fecha | date:'dd/MM/yyyy' }}</td>
-                <td>{{ cita.especialista }}</td>
-                <td class="monto-final">${{ cita.precio }}</td>
+                <td>{{ cita.servicio?.nombre || 'Servicio Premium' }}</td>
+                <td>{{ cita.fecha + 'T00:00:00' | date:'dd/MM/yyyy' }}</td>
+                <td>{{ obtenerEspecialista(cita.notas) }}</td>
+                <td class="monto-final">Bs. {{ cita.servicio?.precio || 0 }}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
+      
+      <section *ngIf="!cargando && historialCitas.length === 0" style="margin-top: 2rem;">
+        <p style="color: #888;">Aún no tienes citas en tu historial.</p>
+      </section>
+
     </main>
 
     <aside class="perfil-sidebar">

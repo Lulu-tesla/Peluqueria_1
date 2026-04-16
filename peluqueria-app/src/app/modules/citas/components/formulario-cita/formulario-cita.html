@@ -20,7 +20,7 @@
           <input type="radio" formControlName="servicioId" [value]="s.id">
           <div class="card-content">
             <span class="nombre">{{ s.nombre }}</span>
-            <span class="detalles">{{ s.duracion }} • <strong>${{ s.precio }}</strong></span>
+            <span class="detalles">{{ s.duracion }} min • <strong>Bs. {{ s.precio }}</strong></span>
           </div>
         </label>
       </div>
@@ -87,7 +87,7 @@
         </div>
         <div class="resumen-total">
           <span>Total estimado</span>
-          <span class="precio-total">${{ servicioSeleccionado?.precio }}</span>
+          <span class="precio-total">Bs. {{ servicioSeleccionado?.precio }}</span>
         </div>
       </div>
 

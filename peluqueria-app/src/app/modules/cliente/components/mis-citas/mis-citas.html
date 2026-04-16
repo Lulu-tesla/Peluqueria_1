@@ -1,1 +1,41 @@
-<p>mis-citas works!</p>
+<div class="historial-container">
+    <header class="historial-header">
+        <h2>Mi Historial de Citas</h2>
+        <p>Revisa tus próximas reservas y tu historial de servicios.</p>
+    </header>
+
+    <div *ngIf="cargando()" class="estado-mensaje">
+        <p style="color: #d4af37;">Cargando tu información...</p>
+    </div>
+
+    <div *ngIf="errorMsg()" class="estado-mensaje alerta-error">
+        {{ errorMsg() }}
+    </div>
+
+    <div *ngIf="!cargando() && citas().length === 0 && !errorMsg()" class="estado-mensaje vacio">
+        <p>Aún no tienes citas programadas en nuestro salón.</p>
+        <a routerLink="/servicios" class="btn-gold-solid" style="margin-top: 15px; display: inline-block;">
+            Reservar un servicio
+        </a>
+    </div>
+
+    <div *ngIf="!cargando() && citas().length > 0" class="citas-grid">
+        
+        <div class="cita-card" *ngFor="let cita of citas()">
+            <div class="cita-card__header">
+                <span class="cita-fecha">📅 {{ cita.fecha | date:'dd/MM/yyyy' }}</span>
+                <span class="cita-hora">⏰ {{ cita.hora }} hs</span>
+            </div>
+            
+            <div class="cita-card__body">
+                <h3 class="cita-servicio">Servicio (ID: {{ cita.servicio_id }})</h3>
+                <p class="cita-notas">{{ cita.notas }}</p>
+            </div>
+            
+            <div class="cita-card__footer">
+                <span class="cita-estado confirmada">Confirmada</span>
+            </div>
+        </div>
+
+    </div>
+</div>
